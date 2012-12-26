@@ -3,7 +3,7 @@
 
 SIMSTRING_NAME = "SimString"
 SIMSTRING_MAJOR_VERSION = "1"
-SIMSTRING_MINOR_VERSION = "0"
+SIMSTRING_MINOR_VERSION = "1"
 SIMSTRING_COPYRIGHT = "Copyright (c) 2012 Katsuma Narisawa, Naoaki Okazaki"
 
 import pymongo, math, sys, time
