@@ -54,5 +54,5 @@ class Searcher:
 
     def __lookup_strings_by_feature_set_size_and_feature(self, feature_size, feature):
         if not (feature in self.lookup_strings_result[feature_size]):
-            self.lookup_strings_result[feature_size][feature] = self.db.__lookup_strings_by_feature_set_size_and_feature(feature_size, feature)
+            self.lookup_strings_result[feature_size][feature] = self.db.lookup_strings_by_feature_set_size_and_feature(feature_size, feature)
         return self.lookup_strings_result[feature_size][feature]
