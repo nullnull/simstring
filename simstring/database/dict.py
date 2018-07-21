@@ -11,9 +11,6 @@ class DictDatabase(BaseDatabase):
         self.feature_set_size_to_string_map = defaultdict(set)
         self.feature_set_size_and_feature_to_string_map = defaultdict(defaultdict_set)
 
-    def strings(self):
-        return self.strings
-
     def add(self, string):
         features = self.feature_extractor.features(string)
         size = len(features)
