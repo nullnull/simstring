@@ -2,7 +2,8 @@
 
 from simstring.feature_extractor.ngram import NgramFeatureExtractor
 feature_extractor = NgramFeatureExtractor(2)
-print feature_extractor.features(u"あいうえお")
+features = feature_extractor.features("aiueo")
+print features
 
 from simstring.measure.cosine import CosineMeasure
 measure = CosineMeasure()
@@ -18,6 +19,17 @@ print measure.minimum_common_feature_count(query_size, y_size, alpha)
 print measure.similarity(X, Y)
 
 from simstring.database.dict import DictDatabase
+db = DictDatabase(feature_extractor)
+
+db.add('aiueo')
+db.add('aiueoo')
+db.add('aiueooo')
+print db.strings
+print db.min_feature_size
+print db.max_feature_size
+print db.lookup_strings_by_feature_set_size_and_feature(5, features[0])
+
+
 from simstring.searcher import Searcher
 
 
