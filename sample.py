@@ -1,11 +1,15 @@
+# coding: utf8
 
-from simstring.database.dict import DictDatabase
 from simstring.feature_extractor.ngram import NgramFeatureExtractor
-from simstring.searcher import Searcher
+feature_extractor = NgramFeatureExtractor(2);
+print feature_extractor.features(u"あいうえお")
+
 from simstring.measure.cosine import CosineMeasure
 
-x = NgramFeatureExtractor();
-print x.features("aiueo")
+
+from simstring.database.dict import DictDatabase
+from simstring.searcher import Searcher
+
 
 #
 # db = SimpleDatabase(NgramFeatureExtractor())
