@@ -1,5 +1,5 @@
 from collections import defaultdict
-from base import BaseDatabase
+from .base import BaseDatabase
 
 def defaultdict_set():
     return defaultdict(set)
