@@ -1,0 +1,27 @@
+version: 2
+jobs:
+  build:
+    machine:
+      image: circleci/classic:edge
+    steps:
+      - checkout
+      - run:
+          name: docker-compose build
+          command: docker-compose build
+      - run:
+          name: docker-compose up
+          command: docker-compose up -d
+      - run:
+          name: sleep for waiting launch db
+          command: sleep 3
+      - run:
+          name: test
+          command: docker-compose run --rm main bash -c "source activate simstring && python -m unittest discover tests"
+      - run:
+          name: docker-compose down
+          command: docker-compose down
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build
