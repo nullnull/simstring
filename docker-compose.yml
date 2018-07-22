@@ -1,0 +1,7 @@
+version: '3'
+services:
+  main:
+    build: .
+    command: bash -c "source activate simstring && python -c 'from time import sleep; sleep(10**5)'"
+    volumes:
+      - .:/app
