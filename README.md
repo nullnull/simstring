@@ -12,6 +12,7 @@ SimString has the following features:
 * 100% exact retrieval. Although some algorithms allow misses (false positives) for faster query response, SimString is guaranteed to achieve 100% correct retrieval with fast query response.
 * Unicode support.
 * Extensibility. You can implement your own feature extractor easily.
+* Japanese support. [MeCab](http://taku910.github.io/mecab/)を使った形態素Nグラムをサポートしています。
 
 [Please see this paper for more details](http://www.aclweb.org/anthology/C10-1096).
 
