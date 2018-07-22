@@ -1,14 +1,24 @@
 # simstring
-A Python implementation of the SimString, a simple and efficient algorithm for approximate string matching.
+A Python implementation of the [SimString](http://www.chokkan.org/software/simstring/index.html.en), a simple and efficient algorithm for approximate string matching.
 
-## References
-- SimString website: http://www.chokkan.org/software/simstring/
-- SimString reference implementation (C++): https://github.com/chokkan/simstring
-- SimString paper: http://www.aclweb.org/anthology/C10-1096
+## Features
+With this library, you can extract strings/texts which has certain similarity from large amount of strings/texts. It will help you when you develop applications related to language processing.
+
+This library supports variety of similarity functions such as Cossine similarity, Jaccard similarity, and supports Word N-gram and Character N-gram as features. You can also implement your own feature extractor easily.
+
+SimString has the following features:
+
+* Fast algorithm for approximate string retrieval.
+* 100% exact retrieval. Although some algorithms allow misses (false positives) for faster query response, SimString is guaranteed to achieve 100% correct retrieval with fast query response.
+* Unicode support.
+* Extensibility. You can implement your own feature extractor easily.
+
+[Please see this paper for more details](http://www.aclweb.org/anthology/C10-1096).
+
 
 ## Install
 ```
-pip install simstring
+pip install simstring-pure
 ```
 
 ## Usage
@@ -54,4 +64,3 @@ print(results)
 ```
 python -m unittest discover tests
 ```
-n
