@@ -1,6 +1,0 @@
-$ simstring -d test.db -t 0.3 -s cosine
-eoayox
-	eoayox
-	ayoxew
-	ayoxzh
-3 strings retrieved (0.00041 sec)
