@@ -1,7 +1,19 @@
 version: '3'
 services:
+  mongo:
+    image: mongo:3.6.6-jessie
+    ports:
+      - 27017:27017
+    volumes:
+      - simstring-mongo-store:/data/db
   main:
     build: .
     command: bash -c "source activate simstring && python -c 'from time import sleep; sleep(10**5)'"
+    depends_on:
+      - mongo
+    environment:
+      MONGO_HOST: mongo
     volumes:
       - .:/app
+volumes:
+  simstring-mongo-store:

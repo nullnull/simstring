@@ -1,8 +1,9 @@
+import os
 from pymongo import MongoClient
 from .base import BaseDatabase
 
 class MongoDatabase(BaseDatabase):
-    def __init__(self, feature_extractor, host='localhost', port=27017, database='simstring'):
+    def __init__(self, feature_extractor, host=(os.environ["MONGO_HOST"] if "MONGO_HOST" in os.environ else 'localhost'), port=27017, database='simstring'):
         self.feature_extractor = feature_extractor
 
         client = MongoClient(host, port)
