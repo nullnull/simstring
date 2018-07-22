@@ -1,18 +1,21 @@
-# coding: utf8
+# coding: utf-8
 
-from simstring.feature_extractor.ngram import NgramFeatureExtractor
+from simstring.feature_extractor.character_ngram import CharacterNgramFeatureExtractor
+from simstring.feature_extractor.word_ngram import WordNgramFeatureExtractor
 from simstring.measure.cosine import CosineMeasure
+from simstring.database.mongo import MongoDatabase
 from simstring.database.dict import DictDatabase
 from simstring.searcher import Searcher
 
-string = "aiueo"
+text = "You are so cool."
 
-db = DictDatabase(NgramFeatureExtractor(2))
-db.add(string)
-db.add('aiueoo')
-db.add('aiueooo')
+db = MongoDatabase(WordNgramFeatureExtractor(2))
+db.reset_collection()
+db.add(text)
+db.add('You are not so cool')
+db.add('Who is cool?')
+print(db.all_documents())
 
 searcher = Searcher(db, CosineMeasure())
-xs = searcher.search(string, 1.0)
-
+xs = searcher.search(text, 0.8)
 print(xs)

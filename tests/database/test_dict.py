@@ -2,13 +2,13 @@
 
 from unittest import TestCase
 from simstring.database.dict import DictDatabase
-from simstring.feature_extractor.ngram import NgramFeatureExtractor
+from simstring.feature_extractor.character_ngram import CharacterNgramFeatureExtractor
 
 class TestDict(TestCase):
     strings = ['a', 'ab', 'abc', 'abcd', 'abcde']
 
     def setUp(self):
-        self.db = DictDatabase(NgramFeatureExtractor(2))
+        self.db = DictDatabase(CharacterNgramFeatureExtractor(2))
         for string in self.strings:
             self.db.add(string)
 
