@@ -5,7 +5,7 @@ SENTINAL_CHAR = " "  # non breaking space
 def each_cons(x, size):
     return [x[i:i+size] for i in range(len(x)-size+1)]
 
-class NgramFeatureExtractor(BaseFeatureExtractor):
+class CharacterNgramFeatureExtractor(BaseFeatureExtractor):
     def __init__(self, n=2):
         self.n = n
 
