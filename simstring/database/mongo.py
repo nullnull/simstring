@@ -27,7 +27,7 @@ class MongoDatabase(BaseDatabase):
 
     def lookup_strings_by_feature_set_size_and_feature(self, size, feature):
         documents = list(self.collection.find({"size": size, "features": feature}))
-        return list(map(lambda x: x['string'], documents))
+        return set(list(map(lambda x: x['string'], documents)))
 
     def reset_collection(self):
         self.collection.remove()
