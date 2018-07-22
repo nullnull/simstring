@@ -18,6 +18,9 @@ jobs:
           name: test
           command: docker-compose run --rm main bash -c "source activate simstring && python -m unittest discover tests"
       - run:
+          name: report code coverage
+          command: docker-compose run --rm main bash -c "source activate simstring && codecov"
+      - run:
           name: docker-compose down
           command: docker-compose down
 workflows:
