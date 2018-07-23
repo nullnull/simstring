@@ -1,6 +1,7 @@
 # simstring
 [![PyPI version](https://badge.fury.io/py/simstring-pure.svg)](https://badge.fury.io/py/simstring-pure)
 [![CircleCI](https://circleci.com/gh/nullnull/simstring.svg?style=svg)](https://circleci.com/gh/nullnull/simstring)
+[![Maintainability](https://api.codeclimate.com/v1/badges/66eb2018262f03ece8a3/maintainability)](https://codeclimate.com/github/nullnull/simstring/maintainability)
 
 A Python implementation of the [SimString](http://www.chokkan.org/software/simstring/index.html.en), a simple and efficient algorithm for approximate string matching.
 
