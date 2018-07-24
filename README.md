@@ -1,4 +1,6 @@
 # simstring
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/simstring-pure.svg)](https://pypi.org/project/simstring-pure/0.0.1/)
+[![PyPI - Status](https://img.shields.io/pypi/status/simstring-pure.svg)](https://pypi.org/project/simstring-pure/)
 [![PyPI version](https://badge.fury.io/py/simstring-pure.svg)](https://badge.fury.io/py/simstring-pure)
 [![CircleCI](https://circleci.com/gh/nullnull/simstring.svg?style=svg)](https://circleci.com/gh/nullnull/simstring)
 [![Maintainability](https://api.codeclimate.com/v1/badges/66eb2018262f03ece8a3/maintainability)](https://codeclimate.com/github/nullnull/simstring/maintainability)
