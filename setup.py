@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="simstring-pure",
-    version="0.0.2",
+    version="0.0.3",
     author="Katsuma Narisawa",
     author_email="katsuma.narisawa@gmail.com",
     description="A Python implementation of the SimString, a simple and efficient algorithm for approximate string matching.",
@@ -14,7 +14,9 @@ setuptools.setup(
     url="https://github.com/nullnull/simstring",
     packages=setuptools.find_packages(),
     classifiers=(
+        "Development Status :: 4 - Beta",
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.7",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ),

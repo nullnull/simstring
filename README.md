@@ -1,10 +1,10 @@
 # simstring
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/simstring-pure.svg)](https://pypi.org/project/simstring-pure/0.0.1/)
 [![PyPI - Status](https://img.shields.io/pypi/status/simstring-pure.svg)](https://pypi.org/project/simstring-pure/)
 [![PyPI version](https://badge.fury.io/py/simstring-pure.svg)](https://badge.fury.io/py/simstring-pure)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/simstring-pure.svg)](https://pypi.org/project/simstring-pure/0.0.1/)
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 [![CircleCI](https://circleci.com/gh/nullnull/simstring.svg?style=svg)](https://circleci.com/gh/nullnull/simstring)
 [![Maintainability](https://api.codeclimate.com/v1/badges/66eb2018262f03ece8a3/maintainability)](https://codeclimate.com/github/nullnull/simstring/maintainability)
-[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 
 
 A Python implementation of the [SimString](http://www.chokkan.org/software/simstring/index.html.en), a simple and efficient algorithm for approximate string matching.

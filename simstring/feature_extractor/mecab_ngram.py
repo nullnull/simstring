@@ -11,7 +11,7 @@ class MecabNgramFeatureExtractor(BaseFeatureExtractor):
 
     def features(self, text):
         words = [x.surface() for x in self.mecab.tokenize(text)]
-        return list(map(lambda x: tuple(x), self._each_cons([SENTINAL_CHAR] + words + [SENTINAL_CHAR], self.n)))
+        return self._words_ngram(words, self.n, SENTINAL_CHAR)
 
 class Token:
     def __init__(self, surface, feature):
