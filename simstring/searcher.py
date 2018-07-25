@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
 from collections import defaultdict
+from operator import itemgetter
 
 class Searcher:
     def __init__(self, db, measure):
@@ -24,7 +25,8 @@ class Searcher:
     def ranked_search(self, query_string, alpha):
         results = self.search(query_string, alpha)
         features = self.feature_extractor.features(query_string)
-        return map(lambda x: [self.measure.similarity(features, self.feature_extractor.features(x)), x], results).sort(key=itemgetter(1))
+        results_with_score = list(map(lambda x: [self.measure.similarity(features, self.feature_extractor.features(x)), x], results))
+        return sorted(results_with_score, key=lambda x: (-x[0], x[1]))
 
     def __min_overlap(self, query_size, candidate_feature_size, alpha):
         return self.measure.minimum_common_feature_count(query_size, candidate_feature_size, alpha)
