@@ -71,7 +71,7 @@ print(results)
 
 ## Run Tests
 ```
-python -m unittest discover tests
+docker-compose run main bash -c 'source activate simstring && python -m unittest discover tests'
 ```
 
 ## Benchmark
