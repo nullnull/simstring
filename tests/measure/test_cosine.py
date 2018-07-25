@@ -24,3 +24,6 @@ class TestCosine(TestCase):
         y = [1, 2, 3, 4]
         self.assertEqual(round(self.measure.similarity(x, x), 2), 1.0)
         self.assertEqual(round(self.measure.similarity(x, y), 2), 0.87)
+
+        z = [1, 1, 2, 3]
+        self.assertEqual(round(self.measure.similarity(z, z), 2), 1.0)

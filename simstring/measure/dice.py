@@ -12,4 +12,4 @@ class DiceMeasure(BaseMeasure):
         return int(math.ceil(0.5 * alpha * query_size * y_size))
 
     def similarity(self, X, Y):
-        return len(set(X) & set(Y)) * 2.0 / (len(X) + len(Y))
+        return len(set(X) & set(Y)) * 2.0 / (len(set(X)) + len(set(Y)))

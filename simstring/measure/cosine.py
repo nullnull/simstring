@@ -12,4 +12,4 @@ class CosineMeasure(BaseMeasure):
         return int(math.ceil(alpha * math.sqrt(query_size * y_size)))
 
     def similarity(self, X, Y):
-        return len(set(X) & set(Y)) * 1.0 / math.sqrt(len(X) * len(Y))
+        return len(set(X) & set(Y)) * 1.0 / math.sqrt(len(set(X)) * len(set(Y)))
