@@ -68,6 +68,7 @@ print(results)
 - Cosine
 - Dice
 - Jaccard
+- Overlap
 
 ## Run Tests
 ```
