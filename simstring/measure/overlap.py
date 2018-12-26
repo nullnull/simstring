@@ -10,7 +10,6 @@ class OverlapMeasure(BaseMeasure):
         return maxsize
 
     def minimum_common_feature_count(self, query_size, y_size, alpha):
-        print(query_size, y_size, alpha)
         return int(math.ceil(alpha * min(query_size, y_size)))
 
     def similarity(self, X, Y):
