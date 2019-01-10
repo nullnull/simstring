@@ -14,6 +14,8 @@ class Searcher:
         features = self.feature_extractor.features(query_string)
         min_feature_size = self.measure.min_feature_size(len(features), alpha)
         max_feature_size = self.measure.max_feature_size(len(features), alpha)
+        if hasattr(self.db, 'max_feature_size'):
+            max_feature_size = min(max_feature_size, self.db.max_feature_size())
         results = []
 
         for candidate_feature_size in range(min_feature_size, max_feature_size + 1):
