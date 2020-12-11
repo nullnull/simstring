@@ -1,5 +1,5 @@
 from unittest import TestCase
-from simstring.database.mongo import MongoDatabase
+# from simstring.database.mongo import MongoDatabase
 from simstring.feature_extractor.character_ngram import CharacterNgramFeatureExtractor
 import pytest
 
