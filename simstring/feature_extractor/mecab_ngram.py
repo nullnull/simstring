@@ -1,8 +1,6 @@
 import MeCab
 from collections import namedtuple
-from .base import BaseFeatureExtractor
-
-SENTINAL_CHAR = " "  # non breaking space
+from .base import BaseFeatureExtractor, SENTINAL_CHAR
 
 class MecabNgramFeatureExtractor(BaseFeatureExtractor):
     def __init__(self, n=2, user_dic_path='', sys_dic_path=''):

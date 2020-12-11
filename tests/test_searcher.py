@@ -20,8 +20,8 @@ class TestSearcher(TestCase):
 
     def test_search2(self):
         self.assertEqual(self.searcher.search('ab', 0.5), ['ab', 'abc', 'abcd'])
-        self.assertEqual(self.searcher.search('abc', 1.0), ['abc'])
-        self.assertEqual(self.searcher.search('abc', 0.9), ['abc'])
+        self.assertEqual(self.searcher.search('ab', 1.0), ['ab'])
+        self.assertEqual(self.searcher.search('ab', 0.9), ['ab'])
 
     def test_search3(self):
         self.assertEqual(self.searcher.search('abc', 1.0), ['abc'])

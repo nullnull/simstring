@@ -1,6 +1,5 @@
-from .base import BaseFeatureExtractor
+from .base import BaseFeatureExtractor, SENTINAL_CHAR
 
-SENTINAL_CHAR = " "  # non breaking space
 
 class WordNgramFeatureExtractor(BaseFeatureExtractor):
     def __init__(self, n=2, splitter=" "):
