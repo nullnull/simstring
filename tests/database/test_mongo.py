@@ -1,7 +1,10 @@
 from unittest import TestCase
 from simstring.database.mongo import MongoDatabase
 from simstring.feature_extractor.character_ngram import CharacterNgramFeatureExtractor
+import pytest
 
+
+@pytest.mark.skip(reason="Currently not testing on Mongo")
 class TestDict(TestCase):
     strings = ['a', 'ab', 'abc', 'abcd', 'abcde']
 
