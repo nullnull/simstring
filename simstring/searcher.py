@@ -22,7 +22,6 @@ class Searcher:
         for candidate_feature_size in range(min_feature_size, max_feature_size + 1):
             tau = self.__min_overlap(lf, candidate_feature_size, alpha)
             results.extend(self.__overlap_join(features, tau, candidate_feature_size))
-
         return results
 
     def ranked_search(self, query_string: str, alpha: float) -> List[str]:
@@ -39,7 +38,6 @@ class Searcher:
         sorted_features = sorted(features, key=lambda x: len(self.__lookup_strings_by_feature_set_size_and_feature(candidate_feature_size, x)))
         candidate_string_to_matched_count = defaultdict(int)
         results = []
-
         for feature in sorted_features[0:query_feature_size - tau + 1]:
             for s in self.__lookup_strings_by_feature_set_size_and_feature(candidate_feature_size, feature):
                 candidate_string_to_matched_count[s] += 1

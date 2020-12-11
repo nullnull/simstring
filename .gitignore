@@ -2,3 +2,4 @@ env/
 cenv/
 senv/
 **/__pycache__/**
+*.egg-info/
