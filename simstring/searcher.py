@@ -30,28 +30,29 @@ class Searcher:
         results_with_score = list(map(lambda x: [self.measure.similarity(features, self.feature_extractor.features(x)), x], results))
         return sorted(results_with_score, key=lambda x: (-x[0], x[1]))
 
-    def __min_overlap(self, query_size, candidate_feature_size, alpha: float):
+    def __min_overlap(self, query_size: int, candidate_feature_size: int, alpha: float) -> int:
         return self.measure.minimum_common_feature_count(query_size, candidate_feature_size, alpha)
     
-    def __overlap_join(self, features, tau, candidate_feature_size):
+    def __overlap_join(self, features, tau, candidate_feature_size: int) -> List[str]:
         query_feature_size = len(features)
-        sorted_features = sorted(features, key=lambda x: len(self.__lookup_strings_by_feature_set_size_and_feature(candidate_feature_size, x)))
+
+        features.sort(key=lambda x: len(self.__lookup_strings_by_feature_set_size_and_feature(candidate_feature_size, x)))
         candidate_string_to_matched_count = defaultdict(int)
         results = []
-        for feature in sorted_features[0:query_feature_size - tau + 1]:
+        for feature in features[0:query_feature_size - tau + 1]:
             for s in self.__lookup_strings_by_feature_set_size_and_feature(candidate_feature_size, feature):
                 candidate_string_to_matched_count[s] += 1
 
-        for s, value in candidate_string_to_matched_count.items():
+        for s, v in candidate_string_to_matched_count.items():
             for i in range(query_feature_size - tau + 1, query_feature_size):
-                feature = sorted_features[i]
+                feature = features[i]
                 if s in self.__lookup_strings_by_feature_set_size_and_feature(candidate_feature_size, feature):
                     candidate_string_to_matched_count[s] += 1
                 if candidate_string_to_matched_count[s] >= tau:
                     results.append(s)
                     break
                 remaining_feature_count = query_feature_size - i - 1
-                if value + remaining_feature_count < tau:
+                if candidate_string_to_matched_count[s] + remaining_feature_count < tau:
                     break
         return results
 
