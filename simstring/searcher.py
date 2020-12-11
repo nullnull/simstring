@@ -35,7 +35,6 @@ class Searcher:
     
     def __overlap_join(self, features, tau, candidate_feature_size: int) -> List[str]:
         query_feature_size = len(features)
-
         features.sort(key=lambda x: len(self.__lookup_strings_by_feature_set_size_and_feature(candidate_feature_size, x)))
         candidate_string_to_matched_count = defaultdict(int)
         results = []
@@ -43,16 +42,16 @@ class Searcher:
             for s in self.__lookup_strings_by_feature_set_size_and_feature(candidate_feature_size, feature):
                 candidate_string_to_matched_count[s] += 1
 
-        for s, v in candidate_string_to_matched_count.items():
+        for key, value in candidate_string_to_matched_count.items():
             for i in range(query_feature_size - tau + 1, query_feature_size):
                 feature = features[i]
                 if s in self.__lookup_strings_by_feature_set_size_and_feature(candidate_feature_size, feature):
-                    candidate_string_to_matched_count[s] += 1
-                if candidate_string_to_matched_count[s] >= tau:
-                    results.append(s)
+                    value += 1
+                if value >= tau:
+                    results.append(key)
                     break
                 remaining_feature_count = query_feature_size - i - 1
-                if candidate_string_to_matched_count[s] + remaining_feature_count < tau:
+                if value + remaining_feature_count < tau:
                     break
         return results
 
