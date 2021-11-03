@@ -35,24 +35,33 @@ class Searcher:
     
     def __overlap_join(self, features, tau, candidate_feature_size: int) -> List[str]:
         query_feature_size = len(features)
-        features.sort(key=lambda x: len(self.__lookup_strings_by_feature_set_size_and_feature(candidate_feature_size, x)))
+        
+        features_mapped_to_lookup_strings_sets = {x: self.__lookup_strings_by_feature_set_size_and_feature(candidate_feature_size, x) for x in features}
+        
+        features.sort(key=lambda x: len(features_mapped_to_lookup_strings_sets[x]))
+
         candidate_string_to_matched_count = defaultdict(int)
         results = []
         for feature in features[0:query_feature_size - tau + 1]:
-            for s in self.__lookup_strings_by_feature_set_size_and_feature(candidate_feature_size, feature):
+            for s in features_mapped_to_lookup_strings_sets[feature]:
                 candidate_string_to_matched_count[s] += 1
-
-        for key, value in candidate_string_to_matched_count.items():
+        
+        # The next loop does not run for tau = 1, hence candidates are never checked, while all satisfies the criteria
+        if tau == 1:
+            results = list(candidate_string_to_matched_count.keys())
+        
+        for candidate, candidate_match_count in candidate_string_to_matched_count.items():
             for i in range(query_feature_size - tau + 1, query_feature_size):
                 feature = features[i]
-                if s in self.__lookup_strings_by_feature_set_size_and_feature(candidate_feature_size, feature):
-                    value += 1
-                if value >= tau:
-                    results.append(key)
+                if candidate in features_mapped_to_lookup_strings_sets[feature]:
+                    candidate_match_count += 1
+                if candidate_match_count >= tau:
+                    results.append(candidate)
                     break
                 remaining_feature_count = query_feature_size - i - 1
-                if value + remaining_feature_count < tau:
+                if candidate_match_count + remaining_feature_count < tau:
                     break
+
         return results
 
     def __lookup_strings_by_feature_set_size_and_feature(self, feature_size, feature):
