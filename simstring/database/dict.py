@@ -10,7 +10,6 @@ class DictDatabase(BaseDatabase):
         self.strings = []
         self.feature_set_size_to_string_map = defaultdict(set)
         self.feature_set_size_and_feature_to_string_map = defaultdict(defaultdict_set)
-        self.try_da_new_stuff=feature_extractor.try_new
 
     def add(self, string,):
         features = self.feature_extractor.features(string)
