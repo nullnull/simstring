@@ -1,13 +1,18 @@
 import setuptools
 
+
+
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+from simstring.searcher import version
+
 setuptools.setup(
     name="simstring-fast",
-    version="0.0.1",
-    author="Ruben Menke",
-    author_email="ruben.m.menke@gmail.com",
+    version="0.1.0",
+    version=version,
+    author="Advanced Analytics",
+    author_email="advancedanalytics@bankingcircle.com",
     description="A fork of the Python implementation of the SimString by (Katsuma Narisawa), a simple and efficient algorithm for approximate string matching.",
     long_description=long_description,
     long_description_content_type="text/markdown",

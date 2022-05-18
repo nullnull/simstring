@@ -11,7 +11,7 @@ class Searcher:
         self.measure = measure
         self.feature_extractor = db.feature_extractor
         self.lookup_strings_result = defaultdict(dict)
- 
+
     def search(self, query_string: str, alpha: float) -> List[str]:
         features = self.feature_extractor.features(query_string)
         lf = len(features)
@@ -27,30 +27,55 @@ class Searcher:
     def ranked_search(self, query_string: str, alpha: float) -> List[str]:
         results = self.search(query_string, alpha)
         features = self.feature_extractor.features(query_string)
-        results_with_score = list(map(lambda x: [self.measure.similarity(features, self.feature_extractor.features(x)), x], results))
-        return sorted(results_with_score, key=lambda x: (-x[0], x[1]))
+        results_with_score = list(
+            map(
+                lambda x: [
+                    self.measure.similarity(
+                        features, self.feature_extractor.features(x)
+                    ),
+                    x,
+                ],
+                results,
+            )
+        )
+        return {
+            name: score
+            for score, name in sorted(results_with_score, key=lambda x: (-x[0], x[1]))
+        }
 
-    def __min_overlap(self, query_size: int, candidate_feature_size: int, alpha: float) -> int:
-        return self.measure.minimum_common_feature_count(query_size, candidate_feature_size, alpha)
-    
+    def __min_overlap(
+        self, query_size: int, candidate_feature_size: int, alpha: float
+    ) -> int:
+        return self.measure.minimum_common_feature_count(
+            query_size, candidate_feature_size, alpha
+        )
+
     def __overlap_join(self, features, tau, candidate_feature_size: int) -> List[str]:
         query_feature_size = len(features)
-        
-        features_mapped_to_lookup_strings_sets = {x: self.__lookup_strings_by_feature_set_size_and_feature(candidate_feature_size, x) for x in features}
-        
+
+        features_mapped_to_lookup_strings_sets = {
+            x: self.__lookup_strings_by_feature_set_size_and_feature(
+                candidate_feature_size, x
+            )
+            for x in features
+        }
+
         features.sort(key=lambda x: len(features_mapped_to_lookup_strings_sets[x]))
 
         candidate_string_to_matched_count = defaultdict(int)
         results = []
-        for feature in features[0:query_feature_size - tau + 1]:
+        for feature in features[0 : query_feature_size - tau + 1]:
             for s in features_mapped_to_lookup_strings_sets[feature]:
                 candidate_string_to_matched_count[s] += 1
-        
+
         # The next loop does not run for tau = 1, hence candidates are never checked, while all satisfies the criteria
         if tau == 1:
             results = list(candidate_string_to_matched_count.keys())
-        
-        for candidate, candidate_match_count in candidate_string_to_matched_count.items():
+
+        for (
+            candidate,
+            candidate_match_count,
+        ) in candidate_string_to_matched_count.items():
             for i in range(query_feature_size - tau + 1, query_feature_size):
                 feature = features[i]
                 if candidate in features_mapped_to_lookup_strings_sets[feature]:
@@ -66,5 +91,9 @@ class Searcher:
 
     def __lookup_strings_by_feature_set_size_and_feature(self, feature_size, feature):
         if feature not in self.lookup_strings_result[feature_size]:
-            self.lookup_strings_result[feature_size][feature] = self.db.lookup_strings_by_feature_set_size_and_feature(feature_size, feature)
+            self.lookup_strings_result[feature_size][
+                feature
+            ] = self.db.lookup_strings_by_feature_set_size_and_feature(
+                feature_size, feature
+            )
         return self.lookup_strings_result[feature_size][feature]
