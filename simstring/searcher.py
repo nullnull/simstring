@@ -10,7 +10,7 @@ class Searcher:
         self.db = db
         self.measure = measure
         self.feature_extractor = db.feature_extractor
-        self.lookup_strings_result = defaultdict(dict)
+        self.lookup_strings_result: dict = defaultdict(dict)
  
     def search(self, query_string: str, alpha: float) -> List[str]:
         features = self.feature_extractor.features(query_string)
@@ -33,10 +33,10 @@ class Searcher:
     def __min_overlap(self, query_size: int, candidate_feature_size: int, alpha: float) -> int:
         return self.measure.minimum_common_feature_count(query_size, candidate_feature_size, alpha)
     
-    def __overlap_join(self, features, tau, candidate_feature_size: int) -> List[str]:
+    def __overlap_join(self, features: List[str], tau:int, candidate_feature_size: int) -> List[str]:
         query_feature_size = len(features)
         features.sort(key=lambda x: len(self.__lookup_strings_by_feature_set_size_and_feature(candidate_feature_size, x)))
-        candidate_string_to_matched_count = defaultdict(int)
+        candidate_string_to_matched_count: dict = defaultdict(int)
         results = []
         for feature in features[0:query_feature_size - tau + 1]:
             for s in self.__lookup_strings_by_feature_set_size_and_feature(candidate_feature_size, feature):
@@ -55,7 +55,7 @@ class Searcher:
                     break
         return results
 
-    def __lookup_strings_by_feature_set_size_and_feature(self, feature_size, feature):
+    def __lookup_strings_by_feature_set_size_and_feature(self, feature_size: int, feature: str):
         if feature not in self.lookup_strings_result[feature_size]:
             self.lookup_strings_result[feature_size][feature] = self.db.lookup_strings_by_feature_set_size_and_feature(feature_size, feature)
         return self.lookup_strings_result[feature_size][feature]

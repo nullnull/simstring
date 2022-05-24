@@ -1,4 +1,5 @@
 from collections import defaultdict
+from typing import List
 from .base import BaseDatabase
 
 def defaultdict_set():
@@ -7,11 +8,11 @@ def defaultdict_set():
 class DictDatabase(BaseDatabase):
     def __init__(self, feature_extractor):
         self.feature_extractor = feature_extractor
-        self.strings = []
-        self.feature_set_size_to_string_map = defaultdict(set)
-        self.feature_set_size_and_feature_to_string_map = defaultdict(defaultdict_set)
+        self.strings: List[str] = []
+        self.feature_set_size_to_string_map: dict = defaultdict(set)
+        self.feature_set_size_and_feature_to_string_map: dict = defaultdict(defaultdict_set)
 
-    def add(self, string):
+    def add(self, string: str):
         features = self.feature_extractor.features(string)
         size = len(features)
 
