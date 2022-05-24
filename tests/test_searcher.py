@@ -30,3 +30,8 @@ class TestSearcher(TestCase):
     def test_search4(self):
         self.assertEqual(self.searcher.search('abcd', 1.0), ['abcd'])
         self.assertEqual(self.searcher.search('abcd', 0.9), ['abcd'])
+
+    # def test_ranked_search(self):
+    # not sure if this works as intended
+    #     self.assertEqual(self.searcher.ranked_search('abcd', 1.0), [[1.0, 'abcd']] )
+    #     self.assertEqual(self.searcher.ranked_search('ab', 0.4), ['ab'])
