@@ -3,7 +3,7 @@
 from unittest import TestCase
 from simstring.measure.jaccard import JaccardMeasure
 
-class TestCosine(TestCase):
+class TestJaccard(TestCase):
     measure = JaccardMeasure()
 
     def test_min_feature_size(self):
@@ -20,7 +20,11 @@ class TestCosine(TestCase):
         self.assertEqual(self.measure.minimum_common_feature_count(5, 5, 0.5), 4)
 
     def test_similarity(self):
-        x = [1, 2, 3]
-        y = [1, 2, 3, 4]
+        x = ["1", "2", "3"]
+        y = ["1", "2", "3", "4"]
         self.assertEqual(round(self.measure.similarity(x, x), 2), 1.0)
         self.assertEqual(round(self.measure.similarity(x, y), 2), 0.75)
+
+        a = ["A" , "AB", "BC", "C"]
+        b = ["B" , "BC", "CD", "DE", "E"]
+        self.assertEqual(round(self.measure.similarity(a, b),3), 0.125)
