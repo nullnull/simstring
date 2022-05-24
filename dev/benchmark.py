@@ -1,14 +1,22 @@
 # coding: utf-8
 
+"""Module benchmarking
+
+This is code to benchmakr the performance of the module.
+
+Requires benchmarker as an additional dependency. Run from main folder with 'python dev/benchmark.py'
+
+    """
+
 import os, sys
 sys.path.append(os.getcwd())
 from benchmarker import Benchmarker
 
 from simstring.feature_extractor.character_ngram import CharacterNgramFeatureExtractor
 from simstring.measure.cosine import CosineMeasure
-from simstring.database.mongo import MongoDatabase
 from simstring.database.dict import DictDatabase
 from simstring.searcher import Searcher
+from time import time
 
 SEARCH_COUNT_LIMIT = 10**4
 
@@ -35,6 +43,15 @@ def output_similar_strings_of_each_line(path, Database):
                     result = searcher.search(strings, 0.8)
 
 print('benchmark for using dict as database')
+start = time()
 output_similar_strings_of_each_line('./dev/data/company_names.txt', DictDatabase)
-print('benchmark for using Mongo as database')
-output_similar_strings_of_each_line('./dev/data/company_names.txt', MongoDatabase)
+print(f"Benchmark took {time()-start:.2f}s.")
+
+try:
+    from simstring.database.mongo import MongoDatabase
+    print('benchmark for using Mongo as database')
+    start = time()
+    output_similar_strings_of_each_line('./dev/data/company_names.txt', MongoDatabase)
+    print(f"Benchmark took {time()-start:.2f}s.")
+except ModuleNotFoundError:
+    print("Pymongo not installed, won't benchmark against MongoDB")

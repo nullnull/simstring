@@ -1,5 +1,8 @@
 env/
 cenv/
 senv/
+mypyenv/
 **/__pycache__/**
 *.egg-info/
+build/
+dist/
