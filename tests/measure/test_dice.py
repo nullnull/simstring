@@ -3,7 +3,7 @@
 from unittest import TestCase
 from simstring.measure.dice import DiceMeasure
 
-class TestCosine(TestCase):
+class TestDice(TestCase):
     measure = DiceMeasure()
 
     def test_min_feature_size(self):
@@ -20,7 +20,12 @@ class TestCosine(TestCase):
         self.assertEqual(self.measure.minimum_common_feature_count(5, 5, 0.5), 7)
 
     def test_similarity(self):
-        x = [1, 2, 3]
-        y = [1, 2, 3, 4]
+        x = ["1", "2", "3"]
+        y = ["1", "2", "3", "4"]
         self.assertEqual(round(self.measure.similarity(x, x), 2), 1.0)
         self.assertEqual(round(self.measure.similarity(x, y), 2), 0.86)
+
+
+        x = ["ni","ig","gh","ht"]
+        y = ["na","ac","ch","ht"]
+        self.assertEqual(round(self.measure.similarity(x, y), 2), 0.25)
