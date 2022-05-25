@@ -1,8 +1,7 @@
 # -*- coding:utf-8 -*-
 
 from collections import defaultdict
-from operator import itemgetter
-from typing import List
+from typing import List, Tuple
 
 
 class Searcher:
@@ -24,12 +23,11 @@ class Searcher:
             results.extend(self.__overlap_join(features, tau, candidate_feature_size))
         return results
 
-    # def ranked_search(self, query_string: str, alpha: float) -> List[str]:
-    #     results = self.search(query_string, alpha)
-    #     features = self.feature_extractor.features(query_string)
-    #     results_with_score = list(map(lambda x: [self.measure.similarity(features, self.feature_extractor.features(x)), x], results))
-    #     breakpoint()
-    #     return sorted(results_with_score, key=lambda x: (-x[0], x[1]))
+    def ranked_search(self, query_string: str, alpha: float) -> List[Tuple[float, str]]:
+        results = self.search(query_string, alpha)
+        features: List[str] = self.feature_extractor.features(query_string)
+        results_with_score  = [(self.measure.similarity(features, self.feature_extractor.features(result)), result) for result in results]
+        return sorted(results_with_score, key=lambda x: (-x[0], x[1]))
 
     def __min_overlap(self, query_size: int, candidate_feature_size: int, alpha: float) -> int:
         return self.measure.minimum_common_feature_count(query_size, candidate_feature_size, alpha)
