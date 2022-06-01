@@ -14,11 +14,12 @@ from benchmarker import Benchmarker
 
 from simstring.feature_extractor.character_ngram import CharacterNgramFeatureExtractor
 from simstring.measure.cosine import CosineMeasure
+from simstring.measure.overlap import OverlapMeasure, LeftOverlapMeasure
 from simstring.database.dict import DictDatabase
 from simstring.searcher import Searcher
 from time import time
 
-SEARCH_COUNT_LIMIT = 10**4
+SEARCH_COUNT_LIMIT = 10**3
 
 def output_similar_strings_of_each_line(path, Database):
     number_of_lines = len(open(path).readlines())
@@ -34,7 +35,7 @@ def output_similar_strings_of_each_line(path, Database):
 
         @bench("search text({0} times)".format(min(number_of_lines, SEARCH_COUNT_LIMIT)))
         def _(bm):
-            searcher = Searcher(db, CosineMeasure())
+            searcher = Searcher(db, LeftOverlapMeasure(db))
             with open(path, 'r') as lines:
                 for i, line in enumerate(lines):
                     if i >= SEARCH_COUNT_LIMIT:
