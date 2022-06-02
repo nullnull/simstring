@@ -37,10 +37,11 @@ class Searcher:
                 results,
             )
         )
-        return {
-            name: score
-            for score, name in sorted(results_with_score, key=lambda x: (-x[0], x[1]))
-        }
+        # return {
+        #     name: score
+        #     for score, name in sorted(results_with_score, key=lambda x: (-x[0], x[1]))
+        # }
+        return [(score, name) for score, name in sorted(results_with_score, key=lambda x: (-x[0], x[1])) ]
 
     def __min_overlap(
         self, query_size: int, candidate_feature_size: int, alpha: float
