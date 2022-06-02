@@ -14,6 +14,7 @@ class DictDatabase(BaseDatabase):
 
     def add(self, string: str):
         features = self.feature_extractor.features(string)
+
         size = len(features)
 
         self.strings.append(string)
