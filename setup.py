@@ -1,5 +1,5 @@
 import setuptools
-# from mypyc.build import mypycify
+from mypyc.build import mypycify
 
 
 
@@ -11,7 +11,7 @@ version = "0.0.2"
 
 setuptools.setup(
     name="simstring-fast",
-    author="Ruben Menke",
+    author="Banking Circle",
     description="A fork of the Python implementation of the SimString by (Katsuma Narisawa), a simple and efficient algorithm for approximate string matching. Uses mypyc to improve speed",
     version=version,
     author_email="advancedanalytics@bankingcircle.com",
@@ -33,23 +33,23 @@ setuptools.setup(
         "mongo" : ["pymongo",],
         "mecab" : ["MeCab"],
     },
-    # ext_modules=mypycify([
-    #     'simstring/__init__.py',
-    #     'simstring/searcher.py',
+    ext_modules=mypycify([
+        'simstring/__init__.py',
+        'simstring/searcher.py',
 
-    #     'simstring/feature_extractor/base.py',
-    #     'simstring/feature_extractor/character_ngram.py',
-    #     'simstring/feature_extractor/word_ngram.py',
+        'simstring/feature_extractor/base.py',
+        'simstring/feature_extractor/character_ngram.py',
+        'simstring/feature_extractor/word_ngram.py',
 
-    #     'simstring/database/base.py',
-    #     'simstring/database/dict.py',
-    #     # 'simstring/database/mongo.py',
+        'simstring/database/base.py',
+        'simstring/database/dict.py',
+        # 'simstring/database/mongo.py',
 
-    #     'simstring/measure/base.py',
-    #     'simstring/measure/cosine.py',
-    #     'simstring/measure/dice.py',
-    #     'simstring/measure/jaccard.py',
+        'simstring/measure/base.py',
+        'simstring/measure/cosine.py',
+        'simstring/measure/dice.py',
+        'simstring/measure/jaccard.py',
         
-    # ]),
+    ]),
 
 )
