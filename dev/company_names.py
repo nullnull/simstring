@@ -9,7 +9,7 @@ from simstring.measure.cosine import CosineMeasure
 # from simstring.database.mongo import MongoDatabase
 from simstring.database.dict import DictDatabase
 from simstring.searcher import Searcher
-
+import numpy as np
 def output_similar_strings_of_each_line(path):
     strings = []
     with open(path, 'r') as lines:
@@ -26,6 +26,6 @@ def output_similar_strings_of_each_line(path):
     for string in strings:
         # result = searcher.search(string, 0.8)
         result = [str(np.round(x[0], 5)) + ' ' + x[1] for x in searcher.ranked_search(string, 0.8)]
-        print("\t".join(['string', ",".join(result)]))
+        print("\t".join([string, ",".join(result)]))
 
 output_similar_strings_of_each_line('./dev/data/company_names.txt')
