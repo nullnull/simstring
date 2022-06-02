@@ -25,36 +25,75 @@ class Searcher:
 
     def ranked_search(self, query_string: str, alpha: float) -> List[Tuple[float, str]]:
         results = self.search(query_string, alpha)
-        features: List[str] = self.feature_extractor.features(query_string)
-        results_with_score  = [(self.measure.similarity(features, self.feature_extractor.features(result)), result) for result in results]
-        return sorted(results_with_score, key=lambda x: (-x[0], x[1]))
+        features = self.feature_extractor.features(query_string)
+        results_with_score = list(
+            map(
+                lambda x: [
+                    self.measure.similarity(
+                        features, self.feature_extractor.features(x)
+                    ),
+                    x,
+                ],
+                results,
+            )
+        )
+        # return {
+        #     name: score
+        #     for score, name in sorted(results_with_score, key=lambda x: (-x[0], x[1]))
+        # }
+        return [(score, name) for score, name in sorted(results_with_score, key=lambda x: (-x[0], x[1])) ]
 
-    def __min_overlap(self, query_size: int, candidate_feature_size: int, alpha: float) -> int:
-        return self.measure.minimum_common_feature_count(query_size, candidate_feature_size, alpha)
-    
-    def __overlap_join(self, features: List[str], tau:int, candidate_feature_size: int) -> List[str]:
+    def __min_overlap(
+        self, query_size: int, candidate_feature_size: int, alpha: float
+    ) -> int:
+        return self.measure.minimum_common_feature_count(
+            query_size, candidate_feature_size, alpha
+        )
+
+    def __overlap_join(self, features, tau, candidate_feature_size: int) -> List[str]:
         query_feature_size = len(features)
-        features.sort(key=lambda x: len(self.__lookup_strings_by_feature_set_size_and_feature(candidate_feature_size, x)))
-        candidate_string_to_matched_count: dict = defaultdict(int)
+
+        features_mapped_to_lookup_strings_sets = {
+            x: self.__lookup_strings_by_feature_set_size_and_feature(
+                candidate_feature_size, x
+            )
+            for x in features
+        }
+
+        features.sort(key=lambda x: len(features_mapped_to_lookup_strings_sets[x]))
+
+        candidate_string_to_matched_count = defaultdict(int)
         results = []
-        for feature in features[0:query_feature_size - tau + 1]:
-            for s in self.__lookup_strings_by_feature_set_size_and_feature(candidate_feature_size, feature):
+        for feature in features[0 : query_feature_size - tau + 1]:
+            for s in features_mapped_to_lookup_strings_sets[feature]:
                 candidate_string_to_matched_count[s] += 1
 
-        for key, value in candidate_string_to_matched_count.items():
+        # The next loop does not run for tau = 1, hence candidates are never checked, while all satisfies the criteria
+        if tau == 1:
+            results = list(candidate_string_to_matched_count.keys())
+
+        for (
+            candidate,
+            candidate_match_count,
+        ) in candidate_string_to_matched_count.items():
             for i in range(query_feature_size - tau + 1, query_feature_size):
                 feature = features[i]
-                if s in self.__lookup_strings_by_feature_set_size_and_feature(candidate_feature_size, feature):
-                    value += 1
-                if value >= tau:
-                    results.append(key)
+                if candidate in features_mapped_to_lookup_strings_sets[feature]:
+                    candidate_match_count += 1
+                if candidate_match_count >= tau:
+                    results.append(candidate)
                     break
                 remaining_feature_count = query_feature_size - i - 1
-                if value + remaining_feature_count < tau:
+                if candidate_match_count + remaining_feature_count < tau:
                     break
+
         return results
 
     def __lookup_strings_by_feature_set_size_and_feature(self, feature_size: int, feature: str):
         if feature not in self.lookup_strings_result[feature_size]:
-            self.lookup_strings_result[feature_size][feature] = self.db.lookup_strings_by_feature_set_size_and_feature(feature_size, feature)
+            self.lookup_strings_result[feature_size][
+                feature
+            ] = self.db.lookup_strings_by_feature_set_size_and_feature(
+                feature_size, feature
+            )
         return self.lookup_strings_result[feature_size][feature]

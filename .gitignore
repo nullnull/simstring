@@ -2,7 +2,11 @@ env/
 cenv/
 senv/
 mypyenv/
+
 **/__pycache__/**
 *.egg-info/
 build/
 dist/
+
+dev/data/geo_address.csv
+dev/geo_matching.py
