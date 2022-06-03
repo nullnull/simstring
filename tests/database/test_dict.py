@@ -22,6 +22,9 @@ class TestDict(TestCase):
         self.assertEqual(self.db.max_feature_size(), max(map(lambda x: len(x) + 1, self.strings)))
 
     def test_lookup_strings_by_feature_set_size_and_feature(self):
-        self.assertEqual(self.db.lookup_strings_by_feature_set_size_and_feature(4, 'ab'), set(['abc']))
-        self.assertEqual(self.db.lookup_strings_by_feature_set_size_and_feature(3, 'ab'), set(['ab']))
-        self.assertEqual(self.db.lookup_strings_by_feature_set_size_and_feature(2, 'ab'), set([]))
+        self.assertEqual(
+            self.db.lookup_strings_by_feature_set_size_and_feature(4, 'ab_1'), 
+            set(['abc'])
+            )
+        self.assertEqual(self.db.lookup_strings_by_feature_set_size_and_feature(3, 'ab_1'), set(['ab']))
+        self.assertEqual(self.db.lookup_strings_by_feature_set_size_and_feature(2, 'ab_1'), set([]))

@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 
+from ast import Dict
 from collections import defaultdict
 from typing import List, Tuple
 
@@ -37,6 +38,7 @@ class Searcher:
                 results,
             )
         )
+        # Why change the signature? is this used in ASAP?
         # return {
         #     name: score
         #     for score, name in sorted(results_with_score, key=lambda x: (-x[0], x[1]))
@@ -62,9 +64,9 @@ class Searcher:
 
         features.sort(key=lambda x: len(features_mapped_to_lookup_strings_sets[x]))
 
-        candidate_string_to_matched_count = defaultdict(int)
+        candidate_string_to_matched_count : Dict[str,int] = defaultdict(int)
         results = []
-        for feature in features[0 : query_feature_size - tau + 1]:
+        for feature in features[0 : query_feature_size - tau + 1]: 
             for s in features_mapped_to_lookup_strings_sets[feature]:
                 candidate_string_to_matched_count[s] += 1
 

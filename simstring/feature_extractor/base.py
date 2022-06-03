@@ -1,4 +1,5 @@
-from typing import List
+from typing import Dict, List
+from collections import defaultdict
 
 SENTINAL_CHAR = " "  # non breaking space
 
@@ -12,7 +13,7 @@ class BaseFeatureExtractor:
     def _words_ngram(self, words: List[str], n:int, SENTINAL_CHAR: str):
         return [tuple(x) for x in self._each_cons([SENTINAL_CHAR] + words + [SENTINAL_CHAR], n)]
 
-    def uniquify_list(self, non_unique_list: list) -> list:
+    def uniquify_list(self, non_unique_list: List[str]) -> List[str]:
         """ Function to ensure a list has only unique values 
             
             All values get "_n" appended where n is the number that entry occured
@@ -26,6 +27,7 @@ class BaseFeatureExtractor:
             ['a', 'b', 'a'] -> ['a_1', 'b_1', 'a_2']
 
         """
+        # counter : Dict[str, int]= defaultdict(lambda: 1) #Could use defaultdict(lambda: 1)  and get rid of if statement
         counter = {}
         unique_list = []
         for val in non_unique_list:

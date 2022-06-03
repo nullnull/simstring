@@ -4,6 +4,7 @@ from unittest import TestCase
 from simstring.searcher import Searcher
 from simstring.database.dict import DictDatabase
 from simstring.measure.cosine import CosineMeasure
+from simstring.measure.jaccard import JaccardMeasure
 from simstring.feature_extractor.character_ngram import CharacterNgramFeatureExtractor
 
 class TestSearcher(TestCase):
@@ -34,10 +35,13 @@ class TestSearcher(TestCase):
 
     def test_ranked_search(self):
         self.assertEqual(self.searcher.ranked_search('abcd', 1.0), [(1.0, 'abcd')] )
-        self.assertEqual(self.searcher.ranked_search('ab', 0.4), [(1.0, 'ab'), (0.5773502691896258, 'abc'), (0.5163977794943222, 'abcd'), (0.47140452079103173, 'abcde')])
+        self.assertEqual(
+            self.searcher.ranked_search('ab', 0.41), 
+            [(1.0, 'ab'), (0.5773502691896258, 'abc'), (0.5163977794943222, 'abcd'), (0.47140452079103173, 'abcde')]
+        )
 
 
-class TestRankedSearch(TestCase):
+class TestRankedSearchCosine(TestCase):
     def setUp(self) -> None:
         db = DictDatabase(CharacterNgramFeatureExtractor(2))
         db.add('foo')
@@ -50,10 +54,33 @@ class TestRankedSearch(TestCase):
 
     def test_ranked_search_example1(self):
         results = self.searcher.ranked_search('fo', 0.5)
-        goal = [(0.8660254037844387, 'foo'), (0.8660254037844387, 'fooo'), (0.5163977794943222, 'food'), (0.5163977794943222, 'fool')]
+        goal = [(0.8660254037844387, 'foo'), (0.7745966692414834, 'fooo'), (0.5163977794943222, 'food'), (0.5163977794943222, 'fool')]
         self.assertEqual(results, goal)    
 
     def test_ranked_search_example2(self):
         results = self.searcher.ranked_search('fo', 0.6)
-        goal = [(0.8660254037844387, 'foo'), (0.8660254037844387, 'fooo')]
+        goal = [(0.8660254037844387, 'foo'), (0.7745966692414834, 'fooo')]
+        self.assertEqual(results, goal)    
+
+
+
+class TestRankedSearchJaccard(TestCase):
+    def setUp(self) -> None:
+        db = DictDatabase(CharacterNgramFeatureExtractor(2))
+        db.add('foo')
+        db.add('bar')
+        db.add('fooo')
+        db.add('food')
+        db.add('fool')
+        db.add('follow')
+        self.searcher = Searcher(db, JaccardMeasure())
+
+    def test_ranked_search_example1(self):
+        results = self.searcher.ranked_search('fo', 0.5)
+        goal =  [(0.75, 'foo'), (0.6, 'fooo')] # strictly speaking not jaccard
+        self.assertEqual(results, goal)    
+
+    def test_ranked_search_example2(self):
+        results = self.searcher.ranked_search('fo', 0.3)
+        goal = [(0.75, 'foo'), (0.6, 'fooo'), (0.3333333333333333, 'food'), (0.3333333333333333, 'fool')]
         self.assertEqual(results, goal)    
