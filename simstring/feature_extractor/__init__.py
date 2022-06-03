@@ -1,3 +1,6 @@
 from .character_ngram import CharacterNgramFeatureExtractor
-from .mecab_ngram import MecabNgramFeatureExtractor
 from .word_ngram import WordNgramFeatureExtractor
+try:
+    from .mecab_ngram import MecabNgramFeatureExtractor
+except ModuleNotFoundError:
+    pass
