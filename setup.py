@@ -18,6 +18,12 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/icfly2/simstring-fast",
+    project_urls={
+        'Documentation': 'https://icfly2.github.io/simstring-fast/',
+        'Funding': 'https://www.bankingcircle.com/',
+        'Source': 'https://github.com/icfly2/simstring-fast',
+        'Tracker': 'https://github.com/icfly2/simstring-fast/issues',
+    },
     packages=setuptools.find_packages(exclude=("tests",)),
     classifiers=[
         "Development Status :: 5 - Production/Stable",
