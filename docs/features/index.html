@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://icfly2.github.io/simstring/features/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Features - Simstring docs</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Features";
+        var mkdocs_page_input_path = "features.md";
+        var mkdocs_page_url = "/simstring/features/";
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Simstring docs
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../measure/">Measure</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../searcher/">Searcher</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../database/">Database</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Features</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#simstring.feature_extractor.CharacterNgramFeatureExtractor">simstring.feature_extractor.CharacterNgramFeatureExtractor</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#simstring.feature_extractor.WordNgramFeatureExtractor">simstring.feature_extractor.WordNgramFeatureExtractor</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#simstring.feature_extractor.MecabNgramFeatureExtractor">simstring.feature_extractor.MecabNgramFeatureExtractor</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Simstring docs</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li><li>Features</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="feature-extractors">Feature extractors</h1>
+
+
+<div class="doc doc-object doc-class">
+
+
+<a id="simstring.feature_extractor.CharacterNgramFeatureExtractor"></a>
+  <div class="doc doc-contents first">
+      <p class="doc doc-class-bases">
+        Bases: <code><span title="simstring.feature_extractor.base.BaseFeatureExtractor">BaseFeatureExtractor</span></code></p>
+
+
+
+        <details class="quote">
+          <summary>Source code in <code>simstring\feature_extractor\character_ngram.py</code></summary>
+          <pre class="highlight"><code class="language-python">class CharacterNgramFeatureExtractor(BaseFeatureExtractor):
+    def __init__(self, n:int=2):
+        self.n = n
+
+    def features(self, string: str) -&gt; List[str]:
+        list_of_ngrams = self._each_cons('$' * (self.n - 1) + string + '$' * (self.n - 1), self.n)
+        return self.uniquify_list(list_of_ngrams) </code></pre>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+<a id="simstring.feature_extractor.WordNgramFeatureExtractor"></a>
+  <div class="doc doc-contents first">
+      <p class="doc doc-class-bases">
+        Bases: <code><span title="simstring.feature_extractor.base.BaseFeatureExtractor">BaseFeatureExtractor</span></code></p>
+
+
+
+        <details class="quote">
+          <summary>Source code in <code>simstring\feature_extractor\word_ngram.py</code></summary>
+          <pre class="highlight"><code class="language-python">class WordNgramFeatureExtractor(BaseFeatureExtractor):
+    def __init__(self, n=2, splitter=" "):
+        self.n = n
+        self.splitter = splitter
+
+    def features(self, text: str) -&gt; List[str]:
+        # Split text by white space.
+        # If you want to extract words from text in more complicated way or using your favorite library like NLTK, please implement in your own.
+        words = text.split(self.splitter)
+        return self._words_ngram(words, self.n, SENTINAL_CHAR)</code></pre>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+<a id="simstring.feature_extractor.MecabNgramFeatureExtractor"></a>
+  <div class="doc doc-contents first">
+      <p class="doc doc-class-bases">
+        Bases: <code><span title="simstring.feature_extractor.base.BaseFeatureExtractor">BaseFeatureExtractor</span></code></p>
+
+
+
+        <details class="quote">
+          <summary>Source code in <code>simstring\feature_extractor\mecab_ngram.py</code></summary>
+          <pre class="highlight"><code class="language-python">class MecabNgramFeatureExtractor(BaseFeatureExtractor):
+    def __init__(self, n=2, user_dic_path='', sys_dic_path=''):
+        self.n = n
+        self.mecab = MecabTokenizer(user_dic_path, sys_dic_path)
+
+    def features(self, text: str) -&gt; List[str]:
+        words = [x.surface() for x in self.mecab.tokenize(text)]
+        return self._words_ngram(words, self.n, SENTINAL_CHAR)</code></pre>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../database/" class="btn btn-neutral float-left" title="Database"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../database/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

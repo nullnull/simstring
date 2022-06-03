@@ -4,6 +4,14 @@ from typing import List, Tuple, Dict
 
 class Searcher:
     def __init__(self, db, measure) -> None:
+        """Searcher class
+
+        This is the main way of interacting with the simsting search.
+
+        Args:
+            db (database): A database, can be a dict or mongo one as defined by the `database` modeule
+            measure (measure): The similarity measure as defined by `measure`
+        """
         self.db = db
         self.measure = measure
         self.feature_extractor = db.feature_extractor
