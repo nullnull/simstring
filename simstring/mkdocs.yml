@@ -1,0 +1,15 @@
+site_name: Simstring docs
+site_url: https://icfly2.github.io/simstring/
+nav:
+    - Home: index.md
+    - Measure: measure.md
+    - Searcher: searcher.md
+    - Database: database.md
+    - Features: features.md
+
+theme:
+  name: "readthedocs"
+
+plugins:
+- search
+- mkdocstrings

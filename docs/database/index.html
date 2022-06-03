@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://icfly2.github.io/simstring/database/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Database - Simstring docs</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Database";
+        var mkdocs_page_input_path = "database.md";
+        var mkdocs_page_url = "/simstring/database/";
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Simstring docs
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../measure/">Measure</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../searcher/">Searcher</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Database</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#dict-based-database">Dict based database</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#simstring.database.DictDatabase">simstring.database.DictDatabase</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#pymongo-based-database">PyMongo based database</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#simstring.database.MongoDatabase">simstring.database.MongoDatabase</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../features/">Features</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Simstring docs</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li><li>Database</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="database">Database</h1>
+<h2 id="dict-based-database">Dict based database</h2>
+
+
+<div class="doc doc-object doc-class">
+
+
+<a id="simstring.database.DictDatabase"></a>
+  <div class="doc doc-contents first">
+      <p class="doc doc-class-bases">
+        Bases: <code><span title="simstring.database.base.BaseDatabase">BaseDatabase</span></code></p>
+
+
+
+        <details class="quote">
+          <summary>Source code in <code>simstring\database\dict.py</code></summary>
+          <pre class="highlight"><code class="language-python">class DictDatabase(BaseDatabase):
+    def __init__(self, feature_extractor):
+        self.feature_extractor = feature_extractor
+        self.strings: List[str] = []
+        self.feature_set_size_to_string_map: Dict[int, Set[str]] = defaultdict(set) # 3.10 and up only
+        self.feature_set_size_and_feature_to_string_map: dict = defaultdict(defaultdict_set)
+
+    def add(self, string: str):
+        features = self.feature_extractor.features(string)
+        size = len(features)
+
+        self.strings.append(string)
+        self.feature_set_size_to_string_map[size].add(string)
+
+        for feature in features:
+            self.feature_set_size_and_feature_to_string_map[size][feature].add(string)
+
+    def all(self):
+        return self.strings
+
+    def lookup_strings_by_feature_set_size_and_feature(self, size: int, feature: str):
+        return self.feature_set_size_and_feature_to_string_map[size][feature]
+
+    def min_feature_size(self):
+        return min(self.feature_set_size_to_string_map.keys())
+
+    def max_feature_size(self):
+        return max(self.feature_set_size_to_string_map.keys())</code></pre>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div><h2 id="pymongo-based-database">PyMongo based database</h2>
+
+
+<div class="doc doc-object doc-class">
+
+
+<a id="simstring.database.MongoDatabase"></a>
+  <div class="doc doc-contents first">
+      <p class="doc doc-class-bases">
+        Bases: <code><span title="simstring.database.base.BaseDatabase">BaseDatabase</span></code></p>
+
+
+
+        <details class="quote">
+          <summary>Source code in <code>simstring\database\mongo.py</code></summary>
+          <pre class="highlight"><code class="language-python">class MongoDatabase(BaseDatabase):
+    def __init__(self, feature_extractor, host=(os.environ["MONGO_HOST"] if "MONGO_HOST" in os.environ else 'localhost'), port=27017, database='simstring'):
+        self.feature_extractor = feature_extractor
+
+        client = MongoClient(host, port)
+        db = client[database]
+        self.collection = db.strings
+        self.ensure_index()
+
+    def add(self, string):
+        features = self.feature_extractor.features(string)
+        self.collection.insert_one({"string": string, "features": features, "size": len(features)})
+
+    def all(self):
+        return list(map(lambda x: x['string'], self.all_documents()))
+
+    def all_documents(self):
+        return list(self.collection.find())
+
+    def ensure_index(self):
+        self.collection.create_index('size')
+        self.collection.create_index('features')
+
+    def lookup_strings_by_feature_set_size_and_feature(self, size, feature):
+        documents = list(self.collection.find({"size": size, "features": feature}))
+        return set(list(map(lambda x: x['string'], documents)))
+
+    def reset_collection(self):
+        self.collection.remove()
+        self.ensure_index()</code></pre>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../searcher/" class="btn btn-neutral float-left" title="Searcher"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../features/" class="btn btn-neutral float-right" title="Features">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../searcher/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../features/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

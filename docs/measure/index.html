@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://icfly2.github.io/simstring/measure/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Measure - Simstring docs</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Measure";
+        var mkdocs_page_input_path = "measure.md";
+        var mkdocs_page_url = "/simstring/measure/";
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Simstring docs
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Measure</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#cosine-measure">Cosine Measure</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#simstring.measure.CosineMeasure">simstring.measure.CosineMeasure</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#jaccard-measure">Jaccard Measure</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#simstring.measure.JaccardMeasure">simstring.measure.JaccardMeasure</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#overlapmeasures">OverlapMeasures</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#simstring.measure.OverlapMeasure">simstring.measure.OverlapMeasure</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#simstring.measure.LeftOverlapMeasure">simstring.measure.LeftOverlapMeasure</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#dicemeasure">DiceMeasure</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#simstring.measure.DiceMeasure">simstring.measure.DiceMeasure</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../searcher/">Searcher</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../database/">Database</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../features/">Features</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Simstring docs</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li><li>Measure</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="measure">Measure</h1>
+<p>The measure defines the formula by which the distance between strings is measured.</p>
+<p>Use as:</p>
+<pre><code class="language-python">from simstring.measure import CosineMeasure, JaccardMeasure, OverlapMeasure, DiceMeasure
+
+</code></pre>
+<p>But be carefull, they are not identical to the normal definitions of these measures. </p>
+<p>Cosine Measure is different to <code>scipy.spatial.distance.cosine</code> as it works on strings and not vectors.</p>
+<p>Jaccard distance does not discard duplicates in its sets, unlike in the normally used definition. This means that 'fooo' is seen as more different from 'fo' than 'foo', which is a more useful way of lookng at the string difference, but is not the usual definition of the distance as implimanted by <code>scipy.spatial.distance.jaccard</code> or <a href="https://en.wikipedia.org/wiki/Jaccard_index">wikipedia</a> or any public <a href="https://planetcalc.com/1664/">calculator</a>.</p>
+<h2 id="cosine-measure">Cosine Measure</h2>
+
+
+<div class="doc doc-object doc-class">
+
+
+<a id="simstring.measure.CosineMeasure"></a>
+  <div class="doc doc-contents first">
+      <p class="doc doc-class-bases">
+        Bases: <code><span title="simstring.measure.base.BaseMeasure">BaseMeasure</span></code></p>
+
+
+
+        <details class="quote">
+          <summary>Source code in <code>simstring\measure\cosine.py</code></summary>
+          <pre class="highlight"><code class="language-python">class CosineMeasure(BaseMeasure):
+    def min_feature_size(self, query_size:int, alpha:float) -&gt; int:
+        return int(math.ceil(alpha * alpha * query_size))
+
+    def max_feature_size(self, query_size:int, alpha:float) -&gt; int:
+        return int(math.floor(query_size / (alpha * alpha)))
+
+    def minimum_common_feature_count(self, query_size: int, y_size:int , alpha: float) -&gt; int:
+        return int(math.ceil(alpha * math.sqrt(query_size * y_size)))
+
+    def similarity(self, X: Iterable[str], Y: Iterable[str]) -&gt; float:
+        return len(set(X) &amp; set(Y)) / math.sqrt(len(set(X)) * len(set(Y)))</code></pre>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div><h2 id="jaccard-measure">Jaccard Measure</h2>
+
+
+<div class="doc doc-object doc-class">
+
+
+<a id="simstring.measure.JaccardMeasure"></a>
+  <div class="doc doc-contents first">
+      <p class="doc doc-class-bases">
+        Bases: <code><span title="simstring.measure.base.BaseMeasure">BaseMeasure</span></code></p>
+
+
+
+        <details class="quote">
+          <summary>Source code in <code>simstring\measure\jaccard.py</code></summary>
+          <pre class="highlight"><code class="language-python">class JaccardMeasure(BaseMeasure):
+    def min_feature_size(self, query_size:int, alpha:float) -&gt; int:
+        return int(math.ceil(alpha * query_size))
+
+    def max_feature_size(self, query_size:int, alpha:float) -&gt; int:
+        return int(math.floor(query_size / alpha))
+
+    def minimum_common_feature_count(self, query_size: int, y_size:int , alpha: float) -&gt; int:
+        return int(math.ceil(alpha * (query_size + y_size) * 1.0 / (1 + alpha)))
+
+    def similarity(self, X: Iterable[str], Y: Iterable[str]) -&gt; float:
+        return len(set(X) &amp; set(Y)) * 1.0 / len(set(X) | set(Y))</code></pre>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div><h2 id="overlapmeasures">OverlapMeasures</h2>
+
+
+<div class="doc doc-object doc-class">
+
+
+<a id="simstring.measure.OverlapMeasure"></a>
+  <div class="doc doc-contents first">
+      <p class="doc doc-class-bases">
+        Bases: <code><span title="simstring.measure.base.BaseMeasure">BaseMeasure</span></code></p>
+
+
+
+        <details class="quote">
+          <summary>Source code in <code>simstring\measure\overlap.py</code></summary>
+          <pre class="highlight"><code class="language-python">class OverlapMeasure(BaseMeasure):
+    def __init__(self, db=None, maxsize: int=100) -&gt; None:
+        super().__init__()
+        if db:
+            self.maxsize = db.max_feature_size()
+        else:
+            self.maxsize = maxsize
+
+    def min_feature_size(self, query_size, alpha) -&gt; int:
+        # return 1 # Not sure the below isn't sufficient
+        return math.floor(query_size*alpha) or 1
+
+    def max_feature_size(self, query_size, alpha) -&gt; int:
+        return self.maxsize
+
+    def minimum_common_feature_count(self, query_size: int, y_size: int, alpha: float) -&gt; int:
+        return int(math.ceil(alpha * min(query_size, y_size)))
+
+    def similarity(self, X: Iterable[str], Y: Iterable[str]) -&gt; int:
+        return min(len(set(X)), len(set(Y)))</code></pre>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+<a id="simstring.measure.LeftOverlapMeasure"></a>
+  <div class="doc doc-contents first">
+      <p class="doc doc-class-bases">
+        Bases: <code><span title="simstring.measure.base.BaseMeasure">BaseMeasure</span></code></p>
+
+
+
+        <details class="quote">
+          <summary>Source code in <code>simstring\measure\overlap.py</code></summary>
+          <pre class="highlight"><code class="language-python">class LeftOverlapMeasure(BaseMeasure):
+    def __init__(self, db=None, maxsize: int=100) -&gt; None:
+        super().__init__()
+        if db:
+            self.maxsize = db.max_feature_size()
+        else:
+            self.maxsize = maxsize
+
+    def min_feature_size(self, query_size, alpha) -&gt; int:
+        return math.floor(query_size*alpha) or 1
+
+    def max_feature_size(self, query_size, alpha) -&gt; int:
+        return self.maxsize
+
+    def minimum_common_feature_count(self, query_size: int, y_size: int, alpha: float) -&gt; int:
+        return math.floor(query_size*alpha) or 1
+
+    def similarity(self, X: Iterable[str], Y: Iterable[str]) -&gt; float:
+        return 1- len(set(X) - set(Y) )/len(set(X))</code></pre>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div><h2 id="dicemeasure">DiceMeasure</h2>
+
+
+<div class="doc doc-object doc-class">
+
+
+<a id="simstring.measure.DiceMeasure"></a>
+  <div class="doc doc-contents first">
+      <p class="doc doc-class-bases">
+        Bases: <code><span title="simstring.measure.base.BaseMeasure">BaseMeasure</span></code></p>
+
+
+
+        <details class="quote">
+          <summary>Source code in <code>simstring\measure\dice.py</code></summary>
+          <pre class="highlight"><code class="language-python">class DiceMeasure(BaseMeasure):   
+
+    def min_feature_size(self, query_size:int, alpha:float) -&gt; int:
+        return int(math.ceil(alpha * 1.0 / (2 - alpha) * query_size))
+
+    def max_feature_size(self, query_size:int, alpha:float) -&gt; int:
+        return int(math.floor((2 - alpha) * query_size * 1.0 / alpha))
+
+    def minimum_common_feature_count(self, query_size: int, y_size:int , alpha: float) -&gt; int:
+        return int(math.ceil(0.5 * alpha * query_size * y_size))
+
+    def similarity(self, X: Iterable[str], Y: Iterable[str]) -&gt; float:
+        return len(set(X) &amp; set(Y)) * 2.0 / (len(set(X)) + len(set(Y)))</code></pre>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../searcher/" class="btn btn-neutral float-right" title="Searcher">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../searcher/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
