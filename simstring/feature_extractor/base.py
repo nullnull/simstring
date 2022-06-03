@@ -4,7 +4,7 @@ from collections import defaultdict
 SENTINAL_CHAR = " "  # non breaking space
 
 class BaseFeatureExtractor:
-    def features(self, _string) -> List[str]:
+    def features(self, string:str) -> List[str]:
         raise NotImplementedError()
 
     def _each_cons(self, xs, n:int) ->  List[str]:
@@ -27,15 +27,10 @@ class BaseFeatureExtractor:
             ['a', 'b', 'a'] -> ['a_1', 'b_1', 'a_2']
 
         """
-        # counter : Dict[str, int]= defaultdict(lambda: 1) #Could use defaultdict(lambda: 1)  and get rid of if statement
-        counter = {}
+        counter : Dict[str, int]= defaultdict(int) 
         unique_list = []
         for val in non_unique_list:
-            if val in counter: 
-                counter[val] += 1            
-            else:
-                counter[val] = 1
-            
+            counter[val] += 1                       
             unique_list.append(f'{val}_{counter[val]}')
         
         return unique_list

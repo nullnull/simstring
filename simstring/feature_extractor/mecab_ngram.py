@@ -1,13 +1,14 @@
 import MeCab
 from collections import namedtuple
 from .base import BaseFeatureExtractor, SENTINAL_CHAR
+from typing import List
 
 class MecabNgramFeatureExtractor(BaseFeatureExtractor):
     def __init__(self, n=2, user_dic_path='', sys_dic_path=''):
         self.n = n
         self.mecab = MecabTokenizer(user_dic_path, sys_dic_path)
 
-    def features(self, text):
+    def features(self, text: str) -> List[str]:
         words = [x.surface() for x in self.mecab.tokenize(text)]
         return self._words_ngram(words, self.n, SENTINAL_CHAR)
 

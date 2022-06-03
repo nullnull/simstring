@@ -1,9 +1,6 @@
 # -*- coding:utf-8 -*-
-
-from ast import Dict
 from collections import defaultdict
-from typing import List, Tuple
-
+from typing import List, Tuple, Dict
 
 class Searcher:
     def __init__(self, db, measure) -> None:
@@ -64,7 +61,8 @@ class Searcher:
 
         features.sort(key=lambda x: len(features_mapped_to_lookup_strings_sets[x]))
 
-        candidate_string_to_matched_count : Dict[str,int] = defaultdict(int)
+        #candidate_string_to_matched_count : Dict[str,int] = defaultdict(int) # Only in 3.10 and later
+        candidate_string_to_matched_count : Dict = defaultdict(int)
         results = []
         for feature in features[0 : query_feature_size - tau + 1]: 
             for s in features_mapped_to_lookup_strings_sets[feature]:
