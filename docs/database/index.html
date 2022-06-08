@@ -60,6 +60,14 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#simstring.database.DictDatabase">simstring.database.DictDatabase</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#simstring.database.dict.DictDatabase.dumps">dumps()</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#simstring.database.dict.DictDatabase.load">load()</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#simstring.database.dict.DictDatabase.loads">loads()</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#simstring.database.dict.DictDatabase.save">save()</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#pymongo-based-database">PyMongo based database</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#simstring.database.MongoDatabase">simstring.database.MongoDatabase</a>
@@ -137,7 +145,66 @@
         return min(self.feature_set_size_to_string_map.keys())
 
     def max_feature_size(self):
-        return max(self.feature_set_size_to_string_map.keys())</code></pre>
+        return max(self.feature_set_size_to_string_map.keys())
+
+    # def __getstate__(self):
+    #     """To pickle the object"""
+    #     return self.__dict__
+
+    # def __setstate__(self, d):
+    #     """To unpickle the object"""
+    #     self.__dict__ = d
+
+    def save(self, filename:str):
+        """Save the database to a file as defined by filename.
+
+        Args:
+            filename: Filename to save the db at. Should include file extention.
+
+        Returns:
+            None
+        """
+        with open(filename, "wb"):
+            pickle.dump(self, f)
+
+    @staticmethod
+    def load(self, filename:str) -&gt; "DictDatabase":
+        """Load db from a file
+
+        Args:
+            filename (str): Name of the file to load
+
+        Returns:
+            DictDatabase: the db
+        """
+        with open(filename, "rb") as f:
+            db = pickle.load(f)
+        return db
+
+    def dumps(self) -&gt; str:
+        """Generate pickle byte stream
+
+        Returns:
+            _type_: _description_
+        """
+        return pickle.dumps(self)
+
+
+
+
+    @staticmethod
+    def loads(binary_data: str) -&gt; "DictDatabase":
+        """Load a binary string representing a database
+
+        Initially only unpickles the data
+
+        Args:
+            binary_data (str): String of data to unpickle
+
+        Returns:
+            Model object
+        """
+        return pickle.loads(binary_data)</code></pre>
         </details>
 
   
@@ -151,6 +218,286 @@
 
 
 
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 class="doc doc-heading" id="simstring.database.dict.DictDatabase.dumps">
+<code class="highlight language-python">dumps()</code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Generate pickle byte stream</p>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>_type_</code></td>          <td>
+                <code>str</code>
+          </td>
+          <td><p><em>description</em></p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>simstring\database\dict.py</code></summary>
+        <pre class="highlight"><code class="language-python">def dumps(self) -&gt; str:
+    """Generate pickle byte stream
+
+    Returns:
+        _type_: _description_
+    """
+    return pickle.dumps(self)</code></pre>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 class="doc doc-heading" id="simstring.database.dict.DictDatabase.load">
+<code class="highlight language-python">load(filename)</code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Load db from a file</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>filename</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>Name of the file to load</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>DictDatabase</code></td>          <td>
+                <code>DictDatabase</code>
+          </td>
+          <td><p>the db</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>simstring\database\dict.py</code></summary>
+        <pre class="highlight"><code class="language-python">@staticmethod
+def load(self, filename:str) -&gt; "DictDatabase":
+    """Load db from a file
+
+    Args:
+        filename (str): Name of the file to load
+
+    Returns:
+        DictDatabase: the db
+    """
+    with open(filename, "rb") as f:
+        db = pickle.load(f)
+    return db</code></pre>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 class="doc doc-heading" id="simstring.database.dict.DictDatabase.loads">
+<code class="highlight language-python">loads(binary_data)</code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Load a binary string representing a database</p>
+<p>Initially only unpickles the data</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>binary_data</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>String of data to unpickle</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>DictDatabase</code>
+          </td>
+          <td><p>Model object</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>simstring\database\dict.py</code></summary>
+        <pre class="highlight"><code class="language-python">@staticmethod
+def loads(binary_data: str) -&gt; "DictDatabase":
+    """Load a binary string representing a database
+
+    Initially only unpickles the data
+
+    Args:
+        binary_data (str): String of data to unpickle
+
+    Returns:
+        Model object
+    """
+    return pickle.loads(binary_data)</code></pre>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 class="doc doc-heading" id="simstring.database.dict.DictDatabase.save">
+<code class="highlight language-python">save(filename)</code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Save the database to a file as defined by filename.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>filename</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>Filename to save the db at. Should include file extention.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+          </td>
+          <td><p>None</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>simstring\database\dict.py</code></summary>
+        <pre class="highlight"><code class="language-python">def save(self, filename:str):
+    """Save the database to a file as defined by filename.
+
+    Args:
+        filename: Filename to save the db at. Should include file extention.
+
+    Returns:
+        None
+    """
+    with open(filename, "wb"):
+        pickle.dump(self, f)</code></pre>
+      </details>
+  </div>
+
+</div>
 
 
 

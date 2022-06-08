@@ -1,6 +1,11 @@
 import setuptools
-from mypyc.build import mypycify
 
+# for development mode
+try:
+    from mypyc.build import mypycify
+except:
+    def mypycify(A):
+        return None
 
 
 with open("README.md", "r") as fh:
@@ -52,6 +57,7 @@ setuptools.setup(
         # 'simstring/database/mongo.py',
 
         'simstring/measure/base.py',
+        'simstring/measure/overlap.py',
         'simstring/measure/cosine.py',
         'simstring/measure/dice.py',
         'simstring/measure/jaccard.py',
