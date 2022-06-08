@@ -29,8 +29,8 @@ pip install simstring-fast
 ## Usage
 ```python
 from simstring.feature_extractor.character_ngram import CharacterNgramFeatureExtractor
-from simstring.measure.cosine import CosineMeasure
-from simstring.database.dict import DictDatabase
+from simstring.measure import CosineMeasure
+from simstring.database import DictDatabase
 from simstring.searcher import Searcher
 
 db = DictDatabase(CharacterNgramFeatureExtractor(2))
@@ -48,8 +48,8 @@ If you want to use other feature, measure, and database, simply replace these cl
 
 ```python
 from simstring.feature_extractor.word_ngram import WordNgramFeatureExtractor
-from simstring.measure.jaccard import JaccardMeasure
-from simstring.database.mongo import MongoDatabase
+from simstring.measure import JaccardMeasure
+from simstring.database import DictDatabase
 from simstring.searcher import Searcher
 
 db = MongoDatabase(WordNgramFeatureExtractor(2))
@@ -65,87 +65,3 @@ print(results)
 - Dice
 - Jaccard
 - Overlap
-
-## Run Tests
-```
-docker-compose run main bash -c 'source activate simstring && python -m pytest'
-```
-
-## Benchmark
-* SWIG bindings of simstring achieve
- * About 1ms to search strings from 5797 strings(company names).
- * About 14ms to search strings from 235544 strings(unabridged dictionary).
- * but there are ome odd bugs in the original implimentation that don't agree with the implimentation here.
-
-* adding mypyc halved the benchark time on my system, your mileage may vary.
-
-#### search from `dev/data/company_names.txt`
-```
-$ python dev/benchmark.py
-benchmark for using dict as database
-## benchmarker:         release 4.0.1 (for python)
-## python version:      3.7.0
-## python compiler:     GCC 7.2.0
-## python platform:     Linux-4.9.87-linuxkit-aufs-x86_64-with-debian-9.4
-## python executable:   /opt/conda/envs/simstring/bin/python
-## cpu model:           Intel(R) Core(TM) i7-6567U CPU @ 3.30GHz  # 3300.000 MHz
-## parameters:          loop=1, cycle=1, extra=0
-
-##                        real    (total    = user    + sys)
-initialize database(5797 lines)    0.1227    0.1200    0.1200    0.0000
-search text(5797 times)    6.9719    6.9400    6.8900    0.0500
-
-## Ranking                real
-initialize database(5797 lines)    0.1227  (100.0) ********************
-search text(5797 times)    6.9719  (  1.8)
-
-## Matrix                 real    [01]    [02]
-[01] initialize database(5797 lines)    0.1227   100.0  5680.9
-[02] search text(5797 times)    6.9719     1.8   100.0
-
-benchmark for using Mongo as database
-## benchmarker:         release 4.0.1 (for python)
-## python version:      3.7.0
-## python compiler:     GCC 7.2.0
-## python platform:     Linux-4.9.87-linuxkit-aufs-x86_64-with-debian-9.4
-## python executable:   /opt/conda/envs/simstring/bin/python
-## cpu model:           Intel(R) Core(TM) i7-6567U CPU @ 3.30GHz  # 3300.000 MHz
-## parameters:          loop=1, cycle=1, extra=0
-
-##                        real    (total    = user    + sys)
-initialize database(5797 lines)    4.5762    2.4900    1.9200    0.5700
-search text(5797 times)  177.8401   60.9100   47.2500   13.6600
-
-## Ranking                real
-initialize database(5797 lines)    4.5762  (100.0) ********************
-search text(5797 times)  177.8401  (  2.6) *
-
-## Matrix                 real    [01]    [02]
-[01] initialize database(5797 lines)    4.5762   100.0  3886.2
-[02] search text(5797 times)  177.8401     2.6   100.0
-```
-
-#### search from `dev/data/unabridged_dictionary.txt`
-```
-$ python dev/benchmark.py
-benchmark for using dict as database
-## benchmarker:         release 4.0.1 (for python)
-## python version:      3.7.0
-## python compiler:     GCC 7.2.0
-## python platform:     Linux-4.9.87-linuxkit-aufs-x86_64-with-debian-9.4
-## python executable:   /opt/conda/envs/simstring/bin/python
-## cpu model:           Intel(R) Core(TM) i7-6567U CPU @ 3.30GHz  # 3300.000 MHz
-## parameters:          loop=1, cycle=1, extra=0
-
-##                        real    (total    = user    + sys)
-initialize database(235544 lines)    2.2576    2.2300    2.1200    0.1100
-search text(10000 times)  141.0302  140.6400  139.9600    0.6800
-
-## Ranking                real
-initialize database(235544 lines)    2.2576  (100.0) ********************
-search text(10000 times)  141.0302  (  1.6)
-
-## Matrix                 real    [01]    [02]
-[01] initialize database(235544 lines)    2.2576   100.0  6246.8
-[02] search text(10000 times)  141.0302     1.6   100.0
-```
