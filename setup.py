@@ -1,6 +1,11 @@
 import setuptools
-from mypyc.build import mypycify
 
+# for development mode
+try:
+    from mypyc.build import mypycify
+except:
+    def mypycify(A):
+        return None
 
 
 with open("README.md", "r") as fh:
