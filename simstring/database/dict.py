@@ -23,16 +23,16 @@ class DictDatabase(BaseDatabase):
         for feature in features:
             self.feature_set_size_and_feature_to_string_map[size][feature].add(string)
 
-    def all(self):
+    def all(self) -> List[str]:
         return self.strings
 
-    def lookup_strings_by_feature_set_size_and_feature(self, size: int, feature: str):
+    def lookup_strings_by_feature_set_size_and_feature(self, size: int, feature: str) -> Set[str]:
         return self.feature_set_size_and_feature_to_string_map[size][feature]
 
-    def min_feature_size(self):
+    def min_feature_size(self) -> int:
         return min(self.feature_set_size_to_string_map.keys())
 
-    def max_feature_size(self):
+    def max_feature_size(self) -> int:
         return max(self.feature_set_size_to_string_map.keys())
 
     # def __getstate__(self):
@@ -52,11 +52,11 @@ class DictDatabase(BaseDatabase):
         Returns:
             None
         """
-        with open(filename, "wb"):
+        with open(filename, "wb") as f:
             pickle.dump(self, f)
 
     @staticmethod
-    def load(self, filename:str) -> "DictDatabase":
+    def load(filename:str) -> "DictDatabase":
         """Load db from a file
 
         Args:
@@ -69,7 +69,7 @@ class DictDatabase(BaseDatabase):
             db = pickle.load(f)
         return db
 
-    def dumps(self) -> str:
+    def dumps(self) -> bytes:
         """Generate pickle byte stream
 
         Returns:
@@ -81,7 +81,7 @@ class DictDatabase(BaseDatabase):
 
 
     @staticmethod
-    def loads(binary_data: str) -> "DictDatabase":
+    def loads(binary_data: bytes) -> "DictDatabase":
         """Load a binary string representing a database
 
         Initially only unpickles the data

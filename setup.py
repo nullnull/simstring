@@ -57,6 +57,7 @@ setuptools.setup(
         # 'simstring/database/mongo.py',
 
         'simstring/measure/base.py',
+        'simstring/measure/overlap.py',
         'simstring/measure/cosine.py',
         'simstring/measure/dice.py',
         'simstring/measure/jaccard.py',
