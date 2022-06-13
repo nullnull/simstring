@@ -8,12 +8,23 @@ nav:
     - Features: features.md
 
 theme:
-  name: "readthedocs"
+  name: mkdocs
+  shortcuts:
+    help: 191    # ?
+    next: 78     # n
+    previous: 80 # p
+    search: 83   # s
 
 plugins:
 - search
 - mkdocstrings
 
 
-# build with
+# for local instal:
+# pip install mkdocs mkdocs mkdocstrings[python]
+
+# for local development and checking cd insto this folder and run:
+# mkdocs serve -w ../docs
+
+# build with:
 # mkdocs build -d ../docs
