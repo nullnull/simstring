@@ -21,8 +21,9 @@ Jaccard distance does not discard duplicates in its sets, unlike in the normally
 ## Cosine Measure
 
 ::: simstring.measure.CosineMeasure
-    :docstring:
-    :members:
+    handler: python
+    options:
+      show_root_heading: false
 
 ## Jaccard Measure
 
