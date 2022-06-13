@@ -6,6 +6,8 @@
 
 A Python implementation of the [SimString](http://www.chokkan.org/software/simstring/index.html.en), a simple and efficient algorithm for approximate string matching.
 
+Docs are [here](https://banking-circle-advanced-analytics.github.io/simstring-fast/)
+
 ## Features
 With this library, you can extract strings/texts which has certain similarity from large amount of strings/texts. It will help you when you develop applications related to language processing.
 
@@ -52,7 +54,7 @@ from simstring.measure import JaccardMeasure
 from simstring.database import DictDatabase
 from simstring.searcher import Searcher
 
-db = MongoDatabase(WordNgramFeatureExtractor(2))
+db = DictDatabase(WordNgramFeatureExtractor(2))
 db.add('You are so cool.')
 
 searcher = Searcher(db, JaccardMeasure())
