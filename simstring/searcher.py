@@ -1,6 +1,9 @@
 # -*- coding:utf-8 -*-
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 from typing import List, Tuple, Dict
+
+from typing import OrderedDict as OrderedDictType
+
 
 class Searcher:
     def __init__(self, db, measure) -> None:
@@ -16,7 +19,7 @@ class Searcher:
         self.measure = measure
         self.feature_extractor = db.feature_extractor
         self.lookup_strings_result: dict = defaultdict(dict)
- 
+
     def search(self, query_string: str, alpha: float) -> List[str]:
         features = self.feature_extractor.features(query_string)
         lf = len(features)
@@ -29,7 +32,18 @@ class Searcher:
             results.extend(self.__overlap_join(features, tau, candidate_feature_size))
         return results
 
-    def ranked_search(self, query_string: str, alpha: float) -> List[Tuple[float, str]]:
+    def ranked_search(
+        self, query_string: str, alpha: float
+    ) -> OrderedDictType[str, float]:
+        """Find matches for sting returning multiple ranked matches.
+
+        Args:
+            query_string (str): string to match
+            alpha (float): min similarity
+
+        Returns:
+            OrderedDict[str, float]: Matched string with similarity
+        """
         results = self.search(query_string, alpha)
         features = self.feature_extractor.features(query_string)
         results_with_score = list(
@@ -43,12 +57,14 @@ class Searcher:
                 results,
             )
         )
-        # Why change the signature? is this used in ASAP?
-        # return {
-        #     name: score
-        #     for score, name in sorted(results_with_score, key=lambda x: (-x[0], x[1]))
-        # }
-        return [(score, name) for score, name in sorted(results_with_score, key=lambda x: (-x[0], x[1])) ]
+        return OrderedDict(
+            (
+                (name, score)
+                for score, name in sorted(
+                    results_with_score, key=lambda x: (-x[0], x[1])
+                )
+            )
+        )
 
     def __min_overlap(
         self, query_size: int, candidate_feature_size: int, alpha: float
@@ -69,10 +85,10 @@ class Searcher:
 
         features.sort(key=lambda x: len(features_mapped_to_lookup_strings_sets[x]))
 
-        #candidate_string_to_matched_count : Dict[str,int] = defaultdict(int) # Only in 3.10 and later
-        candidate_string_to_matched_count : Dict = defaultdict(int)
+        # candidate_string_to_matched_count : Dict[str,int] = defaultdict(int) # Only in 3.10 and later
+        candidate_string_to_matched_count: Dict = defaultdict(int)
         results = []
-        for feature in features[0 : query_feature_size - tau + 1]: 
+        for feature in features[0 : query_feature_size - tau + 1]:
             for s in features_mapped_to_lookup_strings_sets[feature]:
                 candidate_string_to_matched_count[s] += 1
 
@@ -97,7 +113,9 @@ class Searcher:
 
         return results
 
-    def __lookup_strings_by_feature_set_size_and_feature(self, feature_size: int, feature: str):
+    def __lookup_strings_by_feature_set_size_and_feature(
+        self, feature_size: int, feature: str
+    ):
         if feature not in self.lookup_strings_result[feature_size]:
             self.lookup_strings_result[feature_size][
                 feature
