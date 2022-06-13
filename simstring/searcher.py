@@ -2,6 +2,8 @@
 from collections import defaultdict, OrderedDict
 from typing import List, Tuple, Dict
 
+from typing import OrderedDict as OrderedDictType
+
 
 class Searcher:
     def __init__(self, db, measure) -> None:
@@ -30,7 +32,9 @@ class Searcher:
             results.extend(self.__overlap_join(features, tau, candidate_feature_size))
         return results
 
-    def ranked_search(self, query_string: str, alpha: float) -> OrderedDict[str, float]:
+    def ranked_search(
+        self, query_string: str, alpha: float
+    ) -> OrderedDictType[str, float]:
         """Find matches for sting returning multiple ranked matches.
 
         Args:
