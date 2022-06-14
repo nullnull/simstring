@@ -1,6 +1,7 @@
 from .base import BaseFeatureExtractor, SENTINAL_CHAR
 from typing import List
 
+
 class WordNgramFeatureExtractor(BaseFeatureExtractor):
     def __init__(self, n=2, splitter=" "):
         self.n = n

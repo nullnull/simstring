@@ -4,26 +4,29 @@
 from elasticsearch import Elasticsearch
 from benchmarker import Benchmarker
 
-es = Elasticsearch('http://localhost:9200/')
+es = Elasticsearch("http://localhost:9200/")
 
 SEARCH_COUNT_LIMIT = 10**4
-index = 'simstring'
-type = 'sample'
-path = './dev/data/company_names.txt'
+index = "simstring"
+type = "sample"
+path = "./dev/data/company_names.txt"
 number_of_lines = len(open(path).readlines())
 
 with Benchmarker(width=20) as bench:
-    with open(path, 'r') as lines:
+    with open(path, "r") as lines:
         for i, line in enumerate(lines):
-            strings = line.rstrip('\r\n')
-            res = es.index(index=index, doc_type=type, id=i, body={'strings': line})
+            strings = line.rstrip("\r\n")
+            res = es.index(index=index, doc_type=type, id=i, body={"strings": line})
 
     @bench("search text({0} times)".format(min(number_of_lines, SEARCH_COUNT_LIMIT)))
     def _(bm):
-        with open(path, 'r') as lines:
+        with open(path, "r") as lines:
             for i, line in enumerate(lines):
-                strings = line.rstrip('\r\n')
-                res = es.search(index=index, body={"query": {"match": {'strings': strings}}, "min_score": 20})
+                strings = line.rstrip("\r\n")
+                res = es.search(
+                    index=index,
+                    body={"query": {"match": {"strings": strings}}, "min_score": 20},
+                )
 
                 # print(strings)
                 # print("Got %d Hits:" % res['hits']['total'])
