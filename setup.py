@@ -24,10 +24,10 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/icfly2/simstring-fast",
     project_urls={
-        'Documentation': 'https://icfly2.github.io/simstring-fast/',
+        'Documentation': 'https://banking-circle-advanced-analytics.github.io/simstring-fast/',
         'Funding': 'https://www.bankingcircle.com/',
-        'Source': 'https://github.com/icfly2/simstring-fast',
-        'Tracker': 'https://github.com/icfly2/simstring-fast/issues',
+        'Source': 'https://github.com/banking-circle-advanced-analytics/simstring-fast',
+        'Tracker': 'https://github.com/banking-circle-advanced-analytics/simstring-fast/issues',
     },
     packages=setuptools.find_packages(exclude=("tests",)),
     classifiers=[
