@@ -55,7 +55,7 @@ class DictDatabase(BaseDatabase):
         """Save the database to a file as defined by filename.
 
         Args:
-            filename: Filename to save the db at. Should include file extention.
+            filename: Filename to save the db at. Should include file extension.
 
         Returns:
             None
