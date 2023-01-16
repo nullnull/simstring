@@ -15,7 +15,6 @@ authors = [
 classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.7",
   "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
@@ -66,7 +65,7 @@ cov = "pytest --cov-report=term --cov-config=pyproject.toml"
 no-cov = "cov --no-cov {args}"
 
 [[tool.hatch.envs.test.matrix]]
-python = [ "38", "310", "311"]
+python = [ "38", "39", "310", "311"]
 
 [tool.coverage.run]
 branch = true
