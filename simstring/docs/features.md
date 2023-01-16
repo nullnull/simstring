@@ -9,6 +9,6 @@
     :docstring:
     :members:
 
-::: simstring.feature_extractor.MecabNgramFeatureExtractor
+<!-- ::: simstring.feature_extractor.MecabNgramFeatureExtractor
     :docstring:
-    :members:
+    :members: -->

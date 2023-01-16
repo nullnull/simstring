@@ -2,16 +2,14 @@
 
 import os, sys
 
-sys.path.append(os.getcwd())
 import numpy as np
 
 from simstring.feature_extractor.character_ngram import CharacterNgramFeatureExtractor
-from simstring.measure import CosineMeasure, OverlapMeasure, LeftOverlapMeasure
+from simstring.measure.cosine import CosineMeasure#, OverlapMeasure, LeftOverlapMeasure
 
 # from simstring.database.mongo import MongoDatabase
 from simstring.database.dict import DictDatabase
 from simstring.searcher import Searcher
-import numpy as np
 
 from pyinstrument import Profiler
 
@@ -28,11 +26,11 @@ def output_similar_strings_of_each_line(path, measure):
     for string in strings:
         db.add(string)
 
-    db.save("companies.db")
+    # db.save("companies.db")
 
-    dbl = DictDatabase.load("companies.db")
+    # dbl = DictDatabase.load("companies.db")
 
-    searcher = Searcher(dbl, measure)
+    searcher = Searcher(db, measure)
     profiler.start()
 
     for string in strings:
@@ -41,16 +39,16 @@ def output_similar_strings_of_each_line(path, measure):
         # print("\t".join([string, ",".join(result)]))
 
     profiler.stop()
-
+    print(result)
     profiler.print()
-    profiler.open_in_browser()
+    # profiler.open_in_browser()
 
 
 measure = CosineMeasure()
-output_similar_strings_of_each_line("./data/company_names.txt", measure)
+output_similar_strings_of_each_line("dev/data/company_names.txt", measure)
 
-measure = OverlapMeasure()
-output_similar_strings_of_each_line("./data/company_names.txt", measure)
+# measure = OverlapMeasure()
+# output_similar_strings_of_each_line("dev/data/company_names.txt", measure)
 
-measure = LeftOverlapMeasure()
-output_similar_strings_of_each_line("./data/company_names.txt", measure)
+# measure = LeftOverlapMeasure()
+# output_similar_strings_of_each_line("./data/company_names.txt", measure)
