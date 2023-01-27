@@ -18,13 +18,19 @@ class DictDatabase(BaseDatabase):
         self.feature_set_size_and_feature_to_string_map: dict = defaultdict(
             defaultdict_set
         )
+        self._min_feature_size = 9999999
+        self._max_feature_size = 0
 
-    def add(self, string: str):
+
+    def add(self, string: str) -> None:
         features = self.feature_extractor.features(string)
         size = len(features)
 
         self.strings.append(string)
         self.feature_set_size_to_string_map[size].add(string)
+        
+        self._min_feature_size = min(self._min_feature_size, size)
+        self._max_feature_size = max(self._max_feature_size, size)
 
         for feature in features:
             self.feature_set_size_and_feature_to_string_map[size][feature].add(string)
@@ -38,10 +44,10 @@ class DictDatabase(BaseDatabase):
         return self.feature_set_size_and_feature_to_string_map[size][feature]
 
     def min_feature_size(self) -> int:
-        return min(self.feature_set_size_to_string_map.keys())
+        return self._min_feature_size
 
     def max_feature_size(self) -> int:
-        return max(self.feature_set_size_to_string_map.keys())
+        return self._max_feature_size
 
     # def __getstate__(self):
     #     """To pickle the object"""

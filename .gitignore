@@ -10,3 +10,6 @@ dist/
 
 dev/data/geo_address.csv
 dev/geo_matching.py
+*.so
+.coverage
+simstring/site/
