@@ -81,6 +81,26 @@ class TestRankedSearchCosine(TestCase):
         self.assertEqual(results, goal)
 
 
+
+
+class TestRankedSearchCosineLong(TestCase):
+    def setUp(self) -> None:
+        db = DictDatabase(CharacterNgramFeatureExtractor(2))
+        db.add("Amerikaplads 38 2200 Denmark")
+        db.add("Viktoriagade 8E 1655 Denmark")
+        db.add("Vesterbrogade 13 1655 Denmark")
+        self.searcher = Searcher(db, CosineMeasure())
+
+    def test_ranked_search_example1(self):
+        results = self.searcher.ranked_search("Vesterbrogade 15 1655 Denmark", 0.7)
+        goal = OrderedDict(
+            {
+                "Vesterbrogade 13 1655 Denmark": 0.9333333333333333,
+            }
+        )
+        self.assertEqual(results, goal)
+
+
 class TestRankedSearchJaccard(TestCase):
     def setUp(self) -> None:
         db = DictDatabase(CharacterNgramFeatureExtractor(2))

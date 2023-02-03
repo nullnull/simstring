@@ -1,0 +1,106 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "simstring-fast"
+description = "A fork of the Python implementation of the SimString by (Katsuma Narisawa), a simple and efficient algorithm for approximate string matching. Uses mypyc to improve speed"
+readme = "README.md"
+requires-python = ">=3.7"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "Ruben Menke", email = "rum@bankingcircle.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = []
+dynamic = ["version"]
+
+[project.optional-dependencies]
+redis = [
+  "redis"
+]
+fakeredis = [
+  "fakeredis",
+]
+
+[project.urls]
+Documentation = "https://banking-circle-advanced-analytics.github.io/simstring-fast/"
+Issues = "https://github.com/banking-circle-advanced-analytics/simstring-fast"
+Source = "https://github.com/banking-circle-advanced-analytics/simstring-fast/issues"
+
+[tool.hatch.version]
+path = "simstring/__init__.py"
+
+
+[tool.hatch.build]
+include = [       
+   "simstring/*.py",
+   "simstring/**/*.py",
+]
+
+[tool.hatch.build.targets.wheel.hooks.mypyc]
+dependencies = ["hatch-mypyc"]
+mypy-args = [
+  "--check-untyped-defs",
+  "--install-types"
+]
+
+[tool.hatch.envs.default]
+dependencies = [
+  "pytest",
+  "pytest-cov",
+]
+[tool.hatch.envs.default.scripts]
+cov = "pytest --cov-report=term --cov-config=pyproject.toml"
+no-cov = "cov --no-cov {args}"
+
+[[tool.hatch.envs.test.matrix]]
+python = [ "38", "39", "310", "311"]
+
+[tool.coverage.run]
+branch = true
+parallel = true
+include = [
+  "simsting/**/*.py",
+  "simsting/*.py"
+]
+omit = [
+  "simstring/__init__.py",
+  "simstring/**/__init__.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
+
+[tool.hatch.envs.docs]
+dependencies = [
+   "mkdocs", "mkdocstrings[python]"
+]
+[tool.hatch.envs.docs.scripts]
+build = "cd simstring && mkdocs build --clean --strict"
+serve = "cd simstring && mkdocs serve --dev-addr localhost:8000"
+
+
+
+[tool.hatch.envs.benchmark]
+dependencies = [
+   "pyinstrument", "benchmarker" , "numpy"
+]
+
+[tool.hatch.envs.benchmark.scripts]
+run = "python dev/benchmark.py"
+instrument = "python dev/company_names.py"
