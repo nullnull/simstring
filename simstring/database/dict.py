@@ -79,7 +79,7 @@ class DictDatabase(BaseDatabase):
     @staticmethod
     def from_dict(data: dict) -> "DictDatabase":
         "Hack to get object loadable with mypyc"
-        obj = DictDatabase(ast.literal_eval(data["feature_extractor"]))
+        obj = DictDatabase(eval(data["feature_extractor"]))
         obj.strings = data["strings"]
         obj.feature_set_size_to_string_map.update(
             data["feature_set_size_to_string_map"]
