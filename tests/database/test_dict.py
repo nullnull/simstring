@@ -45,5 +45,5 @@ class TestDict(TestCase):
         with open("test.pkl", "rb") as f:
             data2 = pickle.load(f)
 
-        new = DictDatabase.from_json(data2)
+        new = DictDatabase.from_dict(data2)
         assert self.db == new
