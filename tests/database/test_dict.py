@@ -45,4 +45,4 @@ class TestDict(TestCase):
             data2 = pickle.load(f)
 
         new = DictDatabase.from_dict(data2)
-        assert self.db == new
+        self.assertEqual(self.db , new)
