@@ -32,7 +32,7 @@ class TestDict(TestCase):
 
     def test_json_save(self):
         data = self.db.to_pickle()
-        assert data == ""
+        assert data == b"\x80\x04\x95\xb8\x02\x00\x00\x00\x00\x00\x00}\x94(\x8c\x11feature_extractor\x94\x8c!CharacterNgramFeatureExtractor(2...8f\x94(h\t\x90\x8c\x04e$_1\x94\x8f\x94(h\t\x90uu\x8c\x11_min_feature_size\x94K\x02\x8c\x11_max_feature_size\x94K\x06u."
         with open("test.pkl", "wb") as f:
             f.write(data)
             # pickle.dump(data, f)
