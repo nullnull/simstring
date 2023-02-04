@@ -1,15 +1,17 @@
 from collections import defaultdict
-from typing import List, Set, Dict, Type
+from typing import List, Set, Dict, Union
 from .base import BaseDatabase
+from simstring.feature_extractor.character_ngram import CharacterNgramFeatureExtractor
+from simstring.feature_extractor.word_ngram import WordNgramFeatureExtractor
 import pickle
-
+import ast
 
 def defaultdict_set():
     return defaultdict(set)
 
 
 class DictDatabase(BaseDatabase):
-    def __init__(self, feature_extractor):
+    def __init__(self, feature_extractor: Union[CharacterNgramFeatureExtractor, WordNgramFeatureExtractor]):
         self.feature_extractor = feature_extractor
         self.strings: List[str] = []
         self.feature_set_size_to_string_map: Dict[int, Set[str]] = defaultdict(
@@ -56,6 +58,30 @@ class DictDatabase(BaseDatabase):
     # def __setstate__(self, d):
     #     """To unpickle the object"""
     #     self.__dict__ = d
+
+    def to_pickle(self) -> str:
+        "Hack to get object savable with mypyc"
+        data = {
+            "feature_extractor":self.feature_extractor.__define__(),
+            "strings":self.strings,
+            "feature_set_size_to_string_map": self.feature_set_size_to_string_map,
+            "feature_set_size_and_feature_to_string_map":self.feature_set_size_and_feature_to_string_map,
+            "_min_feature_size": self._min_feature_size,
+            "_max_feature_size":self._max_feature_size
+        }
+        return pickle.dumps(data)
+
+
+    @staticmethod
+    def from_dict(data: dict) -> "DictDatabase":
+        "Hack to get object loadable with mypyc"
+        obj = DictDatabase(ast.literal_eval(data["feature_extractor"]))
+        obj.strings = data["strings"]
+        obj.feature_set_size_to_string_map.update(data["feature_set_size_to_string_map"])
+        obj.feature_set_size_and_feature_to_string_map.update(data["feature_set_size_and_feature_to_string_map"])
+        obj._min_feature_size = data["_min_feature_size"]
+        obj._max_feature_size = data["_max_feature_size"]
+        return obj
 
     def save(self, filename: str):
         """Save the database to a file as defined by filename.

@@ -38,3 +38,7 @@ class BaseFeatureExtractor:
             unique_list.append(f"{val}_{counter[val]}")
 
         return unique_list
+
+    def __define__(self) -> str:
+        "Custom representation string"
+        raise NotImplementedError()

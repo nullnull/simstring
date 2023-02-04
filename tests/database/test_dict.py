@@ -3,6 +3,7 @@
 from unittest import TestCase
 from simstring.database.dict import DictDatabase
 from simstring.feature_extractor.character_ngram import CharacterNgramFeatureExtractor
+import pickle
 
 class TestDict(TestCase):
     strings = ['a', 'ab', 'abc', 'abcd', 'abcde']
@@ -28,3 +29,16 @@ class TestDict(TestCase):
             )
         self.assertEqual(self.db.lookup_strings_by_feature_set_size_and_feature(3, 'ab_1'), set(['ab']))
         self.assertEqual(self.db.lookup_strings_by_feature_set_size_and_feature(2, 'ab_1'), set([]))
+
+    def test_json_save(self):
+        data = self.db.to_pickle()
+        assert data == ""
+        with open("test.pkl", "wb") as f:
+            f.write(data)
+            # pickle.dump(data, f)
+
+        with open("test.pkl", "rb") as f:
+            data2 =  pickle.load(f)
+
+        new = DictDatabase.from_json(data2)
+        assert self.db == new
