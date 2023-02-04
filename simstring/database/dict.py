@@ -6,12 +6,18 @@ from simstring.feature_extractor.word_ngram import WordNgramFeatureExtractor
 import pickle
 import ast
 
+
 def defaultdict_set():
     return defaultdict(set)
 
 
 class DictDatabase(BaseDatabase):
-    def __init__(self, feature_extractor: Union[CharacterNgramFeatureExtractor, WordNgramFeatureExtractor]):
+    def __init__(
+        self,
+        feature_extractor: Union[
+            CharacterNgramFeatureExtractor, WordNgramFeatureExtractor
+        ],
+    ):
         self.feature_extractor = feature_extractor
         self.strings: List[str] = []
         self.feature_set_size_to_string_map: Dict[int, Set[str]] = defaultdict(
@@ -23,14 +29,13 @@ class DictDatabase(BaseDatabase):
         self._min_feature_size = 9999999
         self._max_feature_size = 0
 
-
     def add(self, string: str) -> None:
         features = self.feature_extractor.features(string)
         size = len(features)
 
         self.strings.append(string)
         self.feature_set_size_to_string_map[size].add(string)
-        
+
         self._min_feature_size = min(self._min_feature_size, size)
         self._max_feature_size = max(self._max_feature_size, size)
 
@@ -62,23 +67,26 @@ class DictDatabase(BaseDatabase):
     def to_pickle(self) -> bytes:
         "Hack to get object savable with mypyc"
         data = {
-            "feature_extractor":self.feature_extractor.__define__(),
-            "strings":self.strings,
+            "feature_extractor": self.feature_extractor.__define__(),
+            "strings": self.strings,
             "feature_set_size_to_string_map": self.feature_set_size_to_string_map,
-            "feature_set_size_and_feature_to_string_map":self.feature_set_size_and_feature_to_string_map,
+            "feature_set_size_and_feature_to_string_map": self.feature_set_size_and_feature_to_string_map,
             "_min_feature_size": self._min_feature_size,
-            "_max_feature_size":self._max_feature_size
+            "_max_feature_size": self._max_feature_size,
         }
         return pickle.dumps(data)
-
 
     @staticmethod
     def from_dict(data: dict) -> "DictDatabase":
         "Hack to get object loadable with mypyc"
         obj = DictDatabase(ast.literal_eval(data["feature_extractor"]))
         obj.strings = data["strings"]
-        obj.feature_set_size_to_string_map.update(data["feature_set_size_to_string_map"])
-        obj.feature_set_size_and_feature_to_string_map.update(data["feature_set_size_and_feature_to_string_map"])
+        obj.feature_set_size_to_string_map.update(
+            data["feature_set_size_to_string_map"]
+        )
+        obj.feature_set_size_and_feature_to_string_map.update(
+            data["feature_set_size_and_feature_to_string_map"]
+        )
         obj._min_feature_size = data["_min_feature_size"]
         obj._max_feature_size = data["_max_feature_size"]
         return obj

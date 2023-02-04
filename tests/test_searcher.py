@@ -81,8 +81,6 @@ class TestRankedSearchCosine(TestCase):
         self.assertEqual(results, goal)
 
 
-
-
 class TestRankedSearchCosineLong(TestCase):
     def setUp(self) -> None:
         db = DictDatabase(CharacterNgramFeatureExtractor(2))

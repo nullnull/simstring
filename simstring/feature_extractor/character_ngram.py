@@ -12,7 +12,6 @@ class CharacterNgramFeatureExtractor(BaseFeatureExtractor):
         )
         return self.uniquify_list(list_of_ngrams)
 
-
     def __define__(self) -> str:
         "Custom representation string"
         return f"CharacterNgramFeatureExtractor({self.n})"

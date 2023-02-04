@@ -6,6 +6,7 @@ from simstring.measure.overlap import OverlapMeasure, LeftOverlapMeasure
 
 maxsize = 5
 
+
 class TestOverlap(TestCase):
     measure = OverlapMeasure(maxsize=maxsize)
 
@@ -35,6 +36,7 @@ class TestOverlap(TestCase):
 
 
 maxsize = 5
+
 
 class TestLeftOverlap(TestCase):
     measure = LeftOverlapMeasure(maxsize=maxsize)
