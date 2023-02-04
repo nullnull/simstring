@@ -5,7 +5,7 @@ from simstring.feature_extractor.character_ngram import CharacterNgramFeatureExt
 from simstring.feature_extractor.word_ngram import WordNgramFeatureExtractor
 import pickle
 import ast
-
+from io import BufferedWriter
 
 def defaultdict_set():
     return defaultdict(set)
@@ -64,7 +64,7 @@ class DictDatabase(BaseDatabase):
     #     """To unpickle the object"""
     #     self.__dict__ = d
 
-    def to_pickle(self) -> bytes:
+    def to_pickle(self, f: BufferedWriter) -> None:
         "Hack to get object savable with mypyc"
         data = {
             "feature_extractor": self.feature_extractor.__define__(),
@@ -74,7 +74,7 @@ class DictDatabase(BaseDatabase):
             "_min_feature_size": self._min_feature_size,
             "_max_feature_size": self._max_feature_size,
         }
-        return pickle.dumps(data)
+        pickle.dump(data, f)
 
     @staticmethod
     def from_dict(data: dict) -> "DictDatabase":

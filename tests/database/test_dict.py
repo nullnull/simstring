@@ -37,10 +37,9 @@ class TestDict(TestCase):
         )
 
     def test_json_save(self):
-        data = self.db.to_pickle()
+
         with open("test.pkl", "wb") as f:
-            f.write(data)
-            # pickle.dump(data, f)
+            self.db.to_pickle(f)
 
         with open("test.pkl", "rb") as f:
             data2 = pickle.load(f)
