@@ -59,7 +59,7 @@ class DictDatabase(BaseDatabase):
     #     """To unpickle the object"""
     #     self.__dict__ = d
 
-    def to_pickle(self) -> str:
+    def to_pickle(self) -> bytes:
         "Hack to get object savable with mypyc"
         data = {
             "feature_extractor":self.feature_extractor.__define__(),
