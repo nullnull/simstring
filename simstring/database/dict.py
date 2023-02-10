@@ -65,7 +65,16 @@ class DictDatabase(BaseDatabase):
     #     self.__dict__ = d
 
     def to_pickle(self, f: BufferedWriter) -> None:
-        "Hack to get object savable with mypyc"
+        """Hack to get object savable with mypyc
+        
+        Save a db object to pickle with:
+
+        >>> with open("test.pkl", "wb") as f:
+        ...     db.to_pickle(f)
+
+        Args:
+            f (BufferedWriter): File object writer, where to save the data      
+        """
         data = {
             "feature_extractor": self.feature_extractor.__define__(),
             "strings": self.strings,
@@ -78,7 +87,22 @@ class DictDatabase(BaseDatabase):
 
     @staticmethod
     def from_dict(data: dict) -> "DictDatabase":
-        "Hack to get object loadable with mypyc"
+        """Hack to get object loadable with mypyc
+
+        Careful, this runs eval on data["feature_extractor"], so only use pickles you trust.
+        
+        Load a saved DB as a dict and then instatiate an object from that dict:
+
+        Example:
+        >>> with open("test.pkl", "rb") as f:
+        ...     data = pickle.load(f)
+
+        >>> new = DictDatabase.from_dict(data)
+
+        Args:
+            data (dict): A dictionary as created by `to_pickle` 
+
+        """
         obj = DictDatabase(eval(data["feature_extractor"]))
         obj.strings = data["strings"]
         obj.feature_set_size_to_string_map.update(

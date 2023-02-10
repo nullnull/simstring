@@ -28,5 +28,5 @@ jobs:
         HATCH_INDEX_AUTH: ${{ secrets.PYPI_SIMSTRING_UPLOAD_TOKEN }}
       run: |
         hatch version ${{ GITHUB_REF }}
-        hatch build
+        hatch run test:build
         hatch publish
