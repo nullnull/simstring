@@ -4,6 +4,7 @@ from unittest import TestCase
 from simstring.database.dict import DictDatabase
 from simstring.feature_extractor.character_ngram import CharacterNgramFeatureExtractor
 import pickle
+import os
 
 
 class TestDict(TestCase):
@@ -52,3 +53,5 @@ class TestDict(TestCase):
         self.assertEqual(self.db.feature_extractor.n  , new.feature_extractor.n )
         self.assertEqual(self.db.feature_set_size_to_string_map , new.feature_set_size_to_string_map)
         self.assertEqual(self.db.feature_set_size_and_feature_to_string_map , new.feature_set_size_and_feature_to_string_map)
+
+        os.remove("test.pkl")
