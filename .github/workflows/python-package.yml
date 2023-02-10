@@ -13,14 +13,14 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [ '3.8', '3.9', '3.10', '3.11']
+    # strategy:
+    #   matrix:
+    #     python-version: [ '3.8', '3.9', '3.10', '3.11']
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
@@ -35,8 +35,8 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Install module
       run: |
-        hatch build 
+        hatch run test:build
         pip install --no-index --find-links=dist simstring-fast
     - name: Test with hatch and pytest
       run: |
-        hatch run cov
+        hatch run test:cov
