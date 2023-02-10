@@ -3,6 +3,7 @@
 from unittest import TestCase
 from simstring.measure.jaccard import JaccardMeasure
 
+
 class TestJaccard(TestCase):
     measure = JaccardMeasure()
 
@@ -25,6 +26,6 @@ class TestJaccard(TestCase):
         self.assertEqual(round(self.measure.similarity(x, x), 2), 1.0)
         self.assertEqual(round(self.measure.similarity(x, y), 2), 0.75)
 
-        a = ["A" , "AB", "BC", "C"]
-        b = ["B" , "BC", "CD", "DE", "E"]
-        self.assertEqual(round(self.measure.similarity(a, b),3), 0.125)
+        a = ["A", "AB", "BC", "C"]
+        b = ["B", "BC", "CD", "DE", "E"]
+        self.assertEqual(round(self.measure.similarity(a, b), 3), 0.125)

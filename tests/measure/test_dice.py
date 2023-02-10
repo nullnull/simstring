@@ -3,6 +3,7 @@
 from unittest import TestCase
 from simstring.measure.dice import DiceMeasure
 
+
 class TestDice(TestCase):
     measure = DiceMeasure()
 
@@ -25,7 +26,6 @@ class TestDice(TestCase):
         self.assertEqual(round(self.measure.similarity(x, x), 2), 1.0)
         self.assertEqual(round(self.measure.similarity(x, y), 2), 0.86)
 
-
-        x = ["ni","ig","gh","ht"]
-        y = ["na","ac","ch","ht"]
+        x = ["ni", "ig", "gh", "ht"]
+        y = ["na", "ac", "ch", "ht"]
         self.assertEqual(round(self.measure.similarity(x, y), 2), 0.25)

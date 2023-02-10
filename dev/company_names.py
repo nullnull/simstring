@@ -5,7 +5,9 @@ import os, sys
 import numpy as np
 
 from simstring.feature_extractor.character_ngram import CharacterNgramFeatureExtractor
-from simstring.measure.cosine import CosineMeasure#, OverlapMeasure, LeftOverlapMeasure
+from simstring.measure.cosine import (
+    CosineMeasure,
+)  # , OverlapMeasure, LeftOverlapMeasure
 
 # from simstring.database.mongo import MongoDatabase
 from simstring.database.dict import DictDatabase

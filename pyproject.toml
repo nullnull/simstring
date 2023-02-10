@@ -20,18 +20,9 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: Implementation :: CPython",
-  "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies = []
 dynamic = ["version"]
-
-[project.optional-dependencies]
-redis = [
-  "redis"
-]
-fakeredis = [
-  "fakeredis",
-]
 
 [project.urls]
 Documentation = "https://banking-circle-advanced-analytics.github.io/simstring-fast/"
@@ -55,14 +46,18 @@ mypy-args = [
   "--install-types"
 ]
 
-[tool.hatch.envs.default]
+[tool.hatch.envs.test]
 dependencies = [
   "pytest",
   "pytest-cov",
+  "build"
 ]
+
 [tool.hatch.envs.default.scripts]
+version = "python --version"
 cov = "pytest --cov-report=term --cov-config=pyproject.toml"
 no-cov = "cov --no-cov {args}"
+build = "python -m build"
 
 [[tool.hatch.envs.test.matrix]]
 python = [ "38", "39", "310", "311"]

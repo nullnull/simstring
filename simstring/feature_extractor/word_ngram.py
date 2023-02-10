@@ -12,3 +12,6 @@ class WordNgramFeatureExtractor(BaseFeatureExtractor):
         # If you want to extract words from text in more complicated way or using your favorite library like NLTK, please implement in your own.
         words = text.split(self.splitter)
         return self._words_ngram(words, self.n, SENTINAL_CHAR)
+
+    def __define__(self) -> str:
+        return f"WordNgramFeatureExtractor({self.n},{self.splitter})"
