@@ -4,6 +4,8 @@
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/simstring-fast)
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 
+![icon](simstring/docs/strings_icon.png)
+
 A Python implementation of the [SimString](http://www.chokkan.org/software/simstring/index.html.en), a simple and efficient algorithm for approximate string matching.
 
 Docs are [here](https://banking-circle-advanced-analytics.github.io/simstring-fast/)

@@ -1,8 +1,6 @@
 # -*- coding:utf-8 -*-
 from collections import defaultdict, OrderedDict
-from typing import List, Dict, Set
-
-from typing import OrderedDict as OrderedDictType
+from typing import List, Dict, Set, OrderedDict as OrderedDictType
 
 class Searcher:
     def __init__(self, db, measure) -> None:

@@ -109,7 +109,7 @@ class DictDatabase(BaseDatabase):
         obj._max_feature_size = data["_max_feature_size"]
         return obj
 
-    def save(self, filename: str):
+    def save(self, filename: str) -> None:
         """Save the database to a file as defined by filename.
 
         Args:

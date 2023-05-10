@@ -1,11 +1,11 @@
 # Feature extractors
 
 
-::: simstring.feature_extractor.CharacterNgramFeatureExtractor
+::: simstring.feature_extractor.character_ngram.CharacterNgramFeatureExtractor
     :docstring:
     :members:
 
-::: simstring.feature_extractor.WordNgramFeatureExtractor
+::: simstring.feature_extractor.word_ngram.WordNgramFeatureExtractor
     :docstring:
     :members:
 

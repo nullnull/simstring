@@ -1,5 +1,6 @@
 # Simstring
 
+![icon](./strings_icon.png)
 ## Getting started
 
 Install with `pip install simstring-fast`

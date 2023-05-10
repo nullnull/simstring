@@ -20,30 +20,30 @@ Jaccard distance does not discard duplicates in its sets, unlike in the normally
 
 ## Cosine Measure
 
-::: simstring.measure.CosineMeasure
+::: simstring.measure.cosine.CosineMeasure
     handler: python
     options:
       show_root_heading: false
 
 ## Jaccard Measure
 
-::: simstring.measure.JaccardMeasure
+::: simstring.measure.jaccard.JaccardMeasure
     :docstring:
     :members:
 
 ## OverlapMeasures
 
-::: simstring.measure.OverlapMeasure
+::: simstring.measure.overlap.OverlapMeasure
     :docstring:
     :members:
 
-::: simstring.measure.LeftOverlapMeasure
+::: simstring.measure.overlap.LeftOverlapMeasure
     :docstring:
     :members:
 
 
 ## DiceMeasure
 
-::: simstring.measure.DiceMeasure
+::: simstring.measure.dice.DiceMeasure
     :docstring:
     :members:

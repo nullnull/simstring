@@ -2,12 +2,7 @@
 
 
 ## Dict based database
-::: simstring.database.DictDatabase
-    :docstring:
-    :members:
-
-## PyMongo based database
-::: simstring.database.MongoDatabase
+::: simstring.database.dict.DictDatabase
     :docstring:
     :members:
 
