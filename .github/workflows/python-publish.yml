@@ -11,6 +11,9 @@ jobs:
   deploy:
 
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ '3.8', '3.9', '3.10', '3.11']
 
     steps:
     - uses: actions/checkout@v3
@@ -27,6 +30,11 @@ jobs:
         HATCH_INDEX_USER: __token__
         HATCH_INDEX_AUTH: ${{ secrets.PYPI_SIMSTRING_UPLOAD_TOKEN }}
       run: |
-        hatch version ${{ GITHUB_REF }}
+        hatch version ${{ github.ref_name }}
         hatch run test:build
-        hatch publish
+        # hatch publish
+    - name: upload wheels
+      uses: actions/upload-artifact@v3
+      with:
+        name: wheels
+        path: dist/*.whl
