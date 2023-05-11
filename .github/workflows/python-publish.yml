@@ -33,8 +33,10 @@ jobs:
         hatch version ${{ github.ref_name }}
         hatch run test:build
         # hatch publish
-    - name: upload wheels
+    - name: upload dist
       uses: actions/upload-artifact@v3
       with:
-        name: wheels
-        path: dist/*.whl
+        name: dist
+        path: |
+          dist/*.whl
+          dist/*.tar.gz
