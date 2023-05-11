@@ -40,3 +40,8 @@ jobs:
     - name: Test with hatch and pytest
       run: |
         hatch run test:cov
+    - name: upload wheels
+      uses: actions/upload-artifact@v3
+      with:
+        name: wheels
+        path: dist/*.whl
