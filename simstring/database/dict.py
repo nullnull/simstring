@@ -20,9 +20,7 @@ class DictDatabase(BaseDatabase):
     ):
         self.feature_extractor = feature_extractor
         self.strings: List[str] = []
-        self.feature_set_size_to_string_map: Dict[int, Set[str]] = defaultdict(
-            set
-        )  # 3.10 and up only
+        self.feature_set_size_to_string_map: Dict[int, Set[str]] = dict()
         self.feature_set_size_and_feature_to_string_map: dict = defaultdict(
             defaultdict_set
         )
@@ -34,6 +32,10 @@ class DictDatabase(BaseDatabase):
         size = len(features)
 
         self.strings.append(string)
+        
+        if size not in self.feature_set_size_to_string_map:
+            self.feature_set_size_to_string_map[size] = set()
+
         self.feature_set_size_to_string_map[size].add(string)
 
         self._min_feature_size = min(self._min_feature_size, size)
@@ -55,14 +57,6 @@ class DictDatabase(BaseDatabase):
 
     def max_feature_size(self) -> int:
         return self._max_feature_size
-
-    # def __getstate__(self):
-    #     """To pickle the object"""
-    #     return self.__dict__
-
-    # def __setstate__(self, d):
-    #     """To unpickle the object"""
-    #     self.__dict__ = d
 
     def to_pickle(self, f: BufferedWriter) -> None:
         """Hack to get object savable with mypyc
@@ -115,7 +109,7 @@ class DictDatabase(BaseDatabase):
         obj._max_feature_size = data["_max_feature_size"]
         return obj
 
-    def save(self, filename: str):
+    def save(self, filename: str) -> None:
         """Save the database to a file as defined by filename.
 
         Args:

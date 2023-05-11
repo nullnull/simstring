@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "simstring-fast"
 description = "A fork of the Python implementation of the SimString by (Katsuma Narisawa), a simple and efficient algorithm for approximate string matching. Uses mypyc to improve speed"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 license = "MIT"
 keywords = []
 authors = [
@@ -50,7 +50,8 @@ mypy-args = [
 dependencies = [
   "pytest",
   "pytest-cov",
-  "build"
+  "build",
+  "cython"
 ]
 
 [tool.hatch.envs.default.scripts]
@@ -95,7 +96,9 @@ serve = "cd simstring && mkdocs serve --dev-addr localhost:8000"
 dependencies = [
    "pyinstrument", "benchmarker" , "numpy"
 ]
+[[tool.hatch.envs.benchmark.matrix]]
+python = [ "38", "39", "310", "311"]
 
 [tool.hatch.envs.benchmark.scripts]
 run = "python dev/benchmark.py"
-instrument = "python dev/company_names.py"
+instrument = "pip install . && python dev/company_names.py"

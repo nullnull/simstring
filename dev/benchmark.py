@@ -40,7 +40,7 @@ def output_similar_strings_of_each_line(path, Database):
             "search text({0} times)".format(min(number_of_lines, SEARCH_COUNT_LIMIT))
         )
         def _(bm):
-            searcher = Searcher(db, LeftOverlapMeasure(db))
+            searcher = Searcher(db, CosineMeasure())
             with open(path, "r") as lines:
                 for i, line in enumerate(lines):
                     if i >= SEARCH_COUNT_LIMIT:

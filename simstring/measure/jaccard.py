@@ -1,9 +1,8 @@
 import math
 from typing import Iterable
-from .base import BaseMeasure
 
 
-class JaccardMeasure(BaseMeasure):
+class JaccardMeasure:
     def min_feature_size(self, query_size: int, alpha: float) -> int:
         return int(math.ceil(alpha * query_size))
 

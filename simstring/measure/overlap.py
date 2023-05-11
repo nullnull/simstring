@@ -1,9 +1,8 @@
 import math
 from typing import Iterable
-from .base import BaseMeasure
 
 
-class OverlapMeasure(BaseMeasure):
+class OverlapMeasure:
     def __init__(self, db=None, maxsize: int = 100) -> None:
         super().__init__()
         if db:
@@ -11,11 +10,11 @@ class OverlapMeasure(BaseMeasure):
         else:
             self.maxsize = maxsize
 
-    def min_feature_size(self, query_size, alpha) -> int:
+    def min_feature_size(self, query_size: int, alpha: float) -> int:
         # return 1 # Not sure the below isn't sufficient
         return math.floor(query_size * alpha) or 1
 
-    def max_feature_size(self, query_size, alpha) -> int:
+    def max_feature_size(self, query_size: int, alpha: float) -> int:
         return self.maxsize
 
     def minimum_common_feature_count(
@@ -27,7 +26,7 @@ class OverlapMeasure(BaseMeasure):
         return min(len(set(X)), len(set(Y)))
 
 
-class LeftOverlapMeasure(BaseMeasure):
+class LeftOverlapMeasure:
     def __init__(self, db=None, maxsize: int = 100) -> None:
         super().__init__()
         if db:
@@ -35,10 +34,10 @@ class LeftOverlapMeasure(BaseMeasure):
         else:
             self.maxsize = maxsize
 
-    def min_feature_size(self, query_size, alpha) -> int:
+    def min_feature_size(self, query_size: int, alpha: float) -> int:
         return math.floor(query_size * alpha) or 1
 
-    def max_feature_size(self, query_size, alpha) -> int:
+    def max_feature_size(self, query_size: int, alpha: float) -> int:
         return self.maxsize
 
     def minimum_common_feature_count(

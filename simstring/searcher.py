@@ -1,9 +1,6 @@
 # -*- coding:utf-8 -*-
 from collections import defaultdict, OrderedDict
-from typing import List, Tuple, Dict
-
-from typing import OrderedDict as OrderedDictType
-
+from typing import List, Dict, Set, OrderedDict as OrderedDictType
 
 class Searcher:
     def __init__(self, db, measure) -> None:
@@ -73,7 +70,7 @@ class Searcher:
             query_size, candidate_feature_size, alpha
         )
 
-    def __overlap_join(self, features, tau, candidate_feature_size: int) -> List[str]:
+    def __overlap_join(self, features: List[str], tau:int, candidate_feature_size: int) -> List[str]:
         query_feature_size = len(features)
 
         features_mapped_to_lookup_strings_sets = {
@@ -86,10 +83,12 @@ class Searcher:
         features.sort(key=lambda x: len(features_mapped_to_lookup_strings_sets[x]))
 
         # candidate_string_to_matched_count : Dict[str,int] = defaultdict(int) # Only in 3.10 and later
-        candidate_string_to_matched_count: Dict = defaultdict(int)
+        candidate_string_to_matched_count: Dict[str, int] = dict()
         results = []
         for feature in features[0 : query_feature_size - tau + 1]:
             for s in features_mapped_to_lookup_strings_sets[feature]:
+                if s not in candidate_string_to_matched_count:
+                    candidate_string_to_matched_count[s] = 0
                 candidate_string_to_matched_count[s] += 1
 
         # The next loop does not run for tau = 1, hence candidates are never checked, while all satisfies the criteria
@@ -115,7 +114,7 @@ class Searcher:
 
     def __lookup_strings_by_feature_set_size_and_feature(
         self, feature_size: int, feature: str
-    ):
+    ) -> Set[str]:
         if feature not in self.lookup_strings_result[feature_size]:
             self.lookup_strings_result[feature_size][
                 feature
