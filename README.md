@@ -52,8 +52,8 @@ If you want to use other feature, measure, and database, simply replace these cl
 
 ```python
 from simstring.feature_extractor.word_ngram import WordNgramFeatureExtractor
-from simstring.measure import JaccardMeasure
-from simstring.database import DictDatabase
+from simstring.measure.jaccard import JaccardMeasure
+from simstring.database.dict import DictDatabase
 from simstring.searcher import Searcher
 
 db = DictDatabase(WordNgramFeatureExtractor(2))

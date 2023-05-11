@@ -5,7 +5,10 @@ The measure defines the formula by which the distance between strings is measure
 Use as:
 
 ```python
-from simstring.measure import CosineMeasure, JaccardMeasure, OverlapMeasure, DiceMeasure
+from simstring.measure.cosine import CosineMeasure
+from simstring.measure.jaccard import JaccardMeasure
+from simstring.measure.overlap import OverlapMeasure
+from from simstring.measure.dice import DiceMeasure
 
 ```
 

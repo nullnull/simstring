@@ -6,9 +6,9 @@
 Install with `pip install simstring-fast`
 
 ```python
-from simstring.feature_extractor import CharacterNgramFeatureExtractor
-from simstring.measure import CosineMeasure
-from simstring.database import DictDatabase
+from simstring.feature_extractor.character_ngram import CharacterNgramFeatureExtractor
+from simstring.measure.cosine import CosineMeasure
+from simstring.database.dict import DictDatabase
 from simstring.searcher import Searcher
 
 db = DictDatabase(CharacterNgramFeatureExtractor(2))
