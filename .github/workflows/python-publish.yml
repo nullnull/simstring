@@ -8,9 +8,12 @@ on:
     types: [created]
 
 jobs:
-  deploy:
+  build:
 
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ '3.8', '3.9', '3.10', '3.11']
 
     steps:
     - uses: actions/checkout@v3
@@ -22,11 +25,40 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install hatch
-    - name: Build and publish
+    - name: Build
       env:
         HATCH_INDEX_USER: __token__
         HATCH_INDEX_AUTH: ${{ secrets.PYPI_SIMSTRING_UPLOAD_TOKEN }}
       run: |
-        hatch version ${{ GITHUB_REF }}
         hatch run test:build
+  #       # hatch publish
+  #   - name: upload dist
+  #     uses: actions/upload-artifact@v3
+  #     with:
+  #       name: dist
+  #       path: |
+  #         dist/*.whl
+  #         dist/*.tar.gz
+  # publish:
+  #   runs-on: ubuntu-latest
+  #   steps:      
+  #   - name: Download a single artifact
+  #     uses: actions/download-artifact@v3
+  #     with:
+  #       name: dist
+
+  #   - name: Set up Python
+  #     uses: actions/setup-python@v4
+  #     with:
+  #       python-version: '3.x'
+  #   - name: Install dependencies
+  #     run: |
+  #       python -m pip install --upgrade pip
+  #       pip install hatch
+    - name: Publish
+      env:
+        HATCH_INDEX_USER: __token__
+        HATCH_INDEX_AUTH: ${{ secrets.PYPI_SIMSTRING_UPLOAD_TOKEN }}
+      run: |
+        # hatch version ${{ github.ref_name }}
         hatch publish
