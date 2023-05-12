@@ -1,6 +1,7 @@
 import math
 from typing import Iterable
 
+
 class DiceMeasure:
     def min_feature_size(self, query_size: int, alpha: float) -> int:
         return int(math.ceil(alpha * 1.0 / (2 - alpha) * query_size))

@@ -2,6 +2,7 @@
 from collections import defaultdict, OrderedDict
 from typing import List, Dict, Set, OrderedDict as OrderedDictType
 
+
 class Searcher:
     def __init__(self, db, measure) -> None:
         """Searcher class
@@ -70,7 +71,9 @@ class Searcher:
             query_size, candidate_feature_size, alpha
         )
 
-    def __overlap_join(self, features: List[str], tau:int, candidate_feature_size: int) -> List[str]:
+    def __overlap_join(
+        self, features: List[str], tau: int, candidate_feature_size: int
+    ) -> List[str]:
         query_feature_size = len(features)
 
         features_mapped_to_lookup_strings_sets = {
