@@ -1,6 +1,4 @@
-# This workflows will upload a Python Package using Twine when a release is created
-# For more information see: https://help.github.com/en/actions/language-and-framework-guides/using-python-with-github-actions#publishing-to-package-registries
-name: Upload Python Package
+name: Upload to PyPi
 
 on:
   release:
@@ -36,5 +34,5 @@ jobs:
         with:
           user: __token__
           password: ${{ secrets.PYPI_SIMSTRING_UPLOAD_TOKEN }}
-          skip-existing: true
+          skip_existing: true
 
