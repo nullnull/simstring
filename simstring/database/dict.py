@@ -7,6 +7,7 @@ import pickle
 import ast
 from io import BufferedWriter
 
+
 def defaultdict_set():
     return defaultdict(set)
 
@@ -32,7 +33,7 @@ class DictDatabase(BaseDatabase):
         size = len(features)
 
         self.strings.append(string)
-        
+
         if size not in self.feature_set_size_to_string_map:
             self.feature_set_size_to_string_map[size] = set()
 
@@ -60,14 +61,14 @@ class DictDatabase(BaseDatabase):
 
     def to_pickle(self, f: BufferedWriter) -> None:
         """Hack to get object savable with mypyc
-        
+
         Save a db object to pickle with:
 
         >>> with open("test.pkl", "wb") as f:
         ...     db.to_pickle(f)
 
         Args:
-            f (BufferedWriter): File object writer, where to save the data      
+            f (BufferedWriter): File object writer, where to save the data
         """
         data = {
             "feature_extractor": self.feature_extractor.__define__(),
@@ -84,7 +85,7 @@ class DictDatabase(BaseDatabase):
         """Hack to get object loadable with mypyc
 
         Careful, this runs eval on data["feature_extractor"], so only use pickles you trust.
-        
+
         Load a saved DB as a dict and then instatiate an object from that dict:
 
         Example:
@@ -94,7 +95,7 @@ class DictDatabase(BaseDatabase):
         >>> new = DictDatabase.from_dict(data)
 
         Args:
-            data (dict): A dictionary as created by `to_pickle` 
+            data (dict): A dictionary as created by `to_pickle`
 
         """
         obj = DictDatabase(eval(data["feature_extractor"]))
