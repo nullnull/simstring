@@ -16,7 +16,7 @@ class TestDict(TestCase):
             self.db.add(string)
 
     def test_strings(self):
-        self.assertEqual(self.all(), self.strings)
+        self.assertEqual(sorted(self.db.all()), sorted(self.strings))
 
     # def test_min_feature_size(self):
     #     self.assertEqual(self.db.min_feature_size(), min(map(lambda x: len(x) + 1, self.strings)))

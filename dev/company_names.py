@@ -19,7 +19,7 @@ def output_similar_strings_of_each_line(path, measures, db_cls):
         for line in lines:
             strings.append(line.rstrip("\r\n").strip().lower())
     
-    db = make_db(db_cls, strings)
+    db = make_db(db_cls, strings[:10_000])
 
     for measure in measures:
         searcher = Searcher(db, measure)
@@ -40,6 +40,13 @@ def make_db(db_cls, strings):
     return db
 
 if __name__ =="__main__":
-    measures =  [CosineMeasure(), OverlapMeasure(), LeftOverlapMeasure()]
+    file = "dev/data/company_names.txt"
+    # file = "dev/data/unabridged_dictionary.txt"
+    # file = "dev/data/addresses.csv"
+    # measures =  [CosineMeasure(), OverlapMeasure(), LeftOverlapMeasure()]
+    measures =  [CosineMeasure()]
     for db_cls in [DictDatabase,DiskDatabase]:
-            output_similar_strings_of_each_line("dev/data/company_names.txt", measures, db_cls)
+            output_similar_strings_of_each_line(file, measures, db_cls)
+
+    # for db_cls in [DictDatabase,DiskDatabase]:
+    #         output_similar_strings_of_each_line("dev/data/unabridged_dictionary2.txt", measures, db_cls)

@@ -13,3 +13,5 @@ dev/geo_matching.py
 *.so
 .coverage
 simstring/site/
+tmp*/
+addresses.csv
