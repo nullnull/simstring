@@ -49,7 +49,22 @@ class DiskDatabase(BaseDatabase):
         except KeyError:
             return set() 
 
+    def commit(self):
+        pass
+
     def add(self, string: str) -> None:
+        features, size = self._process_string(string)
+
+        for feature in features:
+            self.add_feature_set_size_and_feature_to_string_map(size, feature, string)
+
+    def fast_add(self, string: str) -> None:
+        features, size = self._process_string(string)
+
+        for feature in features:
+            self.add_feature_set_size_and_feature_to_string_map(size, feature, string)
+
+    def _process_string(self, string:str):
         features = self.feature_extractor.features(string)
         size = len(features)
 
@@ -63,9 +78,7 @@ class DiskDatabase(BaseDatabase):
 
         self._min_feature_size = min(self._min_feature_size, size)
         self._max_feature_size = max(self._max_feature_size, size)
-
-        for feature in features:
-            self.add_feature_set_size_and_feature_to_string_map(size, feature, string)
+        return features,size
 
     def all(self) -> List[str]:
         strings = []
