@@ -69,11 +69,12 @@ class DiskDatabase(BaseDatabase):
         size = len(features)
 
         if size not in self.feature_set_size_to_string_map:
-            self.feature_set_size_to_string_map[size] = set()
+            size_to_string_map = set()
         else:
             size_to_string_map = self.feature_set_size_to_string_map[size]
-            size_to_string_map.add(string)
-            self.feature_set_size_to_string_map[size] = size_to_string_map
+        
+        size_to_string_map.add(string)
+        self.feature_set_size_to_string_map[size] = size_to_string_map
 
 
         self._min_feature_size = min(self._min_feature_size, size)

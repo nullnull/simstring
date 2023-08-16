@@ -8,7 +8,7 @@ import os
 import shutil
 
 
-class TestDict(TestCase):
+class TestDisk(TestCase):
     strings = ["a", "ab", "abc", "abcd", "abcde"]
 
     def setUp(self):
