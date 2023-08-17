@@ -13,3 +13,6 @@ class BaseDatabase:
 
     def lookup_strings_by_feature_set_size_and_feature(self, size, feature):
         raise NotImplementedError
+
+    def commit(self):
+        pass

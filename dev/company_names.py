@@ -5,6 +5,7 @@ from simstring.measure.overlap import OverlapMeasure, LeftOverlapMeasure
 
 from simstring.database.dict import DictDatabase
 from simstring.database.disk import DiskDatabase
+from simstring.database.redis import RedisDatabase
 from simstring.searcher import Searcher
 from tqdm import tqdm
 
@@ -19,7 +20,7 @@ def output_similar_strings_of_each_line(path, measures, db_cls):
         for line in lines:
             strings.append(line.rstrip("\r\n").strip().lower())
     
-    db = make_db(db_cls, strings[:10_000])
+    db = make_db(db_cls, strings)
 
     for measure in measures:
         searcher = Searcher(db, measure)
@@ -35,8 +36,14 @@ def output_similar_strings_of_each_line(path, measures, db_cls):
 
 def make_db(db_cls, strings):
     db = db_cls(CharacterNgramFeatureExtractor(2))
+    i = 0
     for string in tqdm(strings):
         db.add(string)
+        i += 1
+        if (i % 10000) == 0:
+            db.commit()
+            i = 0
+    db.commit()
     return db
 
 if __name__ =="__main__":
@@ -45,8 +52,10 @@ if __name__ =="__main__":
     # file = "dev/data/addresses.csv"
     # measures =  [CosineMeasure(), OverlapMeasure(), LeftOverlapMeasure()]
     measures =  [CosineMeasure()]
-    for db_cls in [DictDatabase,DiskDatabase]:
-            output_similar_strings_of_each_line(file, measures, db_cls)
+    dbs = [DictDatabase,DiskDatabase, RedisDatabase]
+    # dbs = [DiskDatabase]
+    for db_cls in dbs:
+        output_similar_strings_of_each_line(file, measures, db_cls)
 
     # for db_cls in [DictDatabase,DiskDatabase]:
     #         output_similar_strings_of_each_line("dev/data/unabridged_dictionary2.txt", measures, db_cls)
