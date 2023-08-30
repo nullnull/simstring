@@ -19,12 +19,6 @@ class TestDict(TestCase):
         self.assertEqual(sorted(self.db.all()), sorted(self.strings))
 
 
-    def test_min_feature_size(self):
-        self.assertEqual(self.db.min_feature_size(), 2)
-
-    def test_max_feature_size(self):
-        self.assertEqual(self.db.max_feature_size(), 6)
-
     def test_lookup_strings_by_feature_set_size_and_feature(self):
         self.assertEqual(
             self.db.lookup_strings_by_feature_set_size_and_feature(4, "ab_1"),

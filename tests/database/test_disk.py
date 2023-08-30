@@ -24,11 +24,6 @@ class TestDisk(TestCase):
     def test_strings(self):
         self.assertEqual(sorted(self.db.all()), sorted(self.strings))
 
-    def test_min_feature_size(self):
-        self.assertEqual(self.db.min_feature_size(), 2)
-
-    def test_max_feature_size(self):
-        self.assertEqual(self.db.max_feature_size(), 6)
 
     def test_lookup_strings_by_feature_set_size_and_feature(self):
         self.assertEqual(
@@ -52,8 +47,6 @@ class TestDisk(TestCase):
         with open("test.pkl", "rb") as f:
             new =  pickle.load(f)
 
-        self.assertEqual(self.db._min_feature_size, new._min_feature_size)
-        self.assertEqual(self.db._max_feature_size, new._max_feature_size)
         self.assertEqual(
             self.db.feature_extractor.__class__, new.feature_extractor.__class__
         )

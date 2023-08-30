@@ -39,9 +39,6 @@ class DictDatabase(BaseDatabase):
 
         self.feature_set_size_to_string_map[size].add(string)
 
-        self._min_feature_size = min(self._min_feature_size, size)
-        self._max_feature_size = max(self._max_feature_size, size)
-
         for feature in features:
             self.feature_set_size_and_feature_to_string_map[size][feature].add(string)
 
@@ -52,12 +49,6 @@ class DictDatabase(BaseDatabase):
         self, size: int, feature: str
     ) -> Set[str]:
         return self.feature_set_size_and_feature_to_string_map[size][feature]
-
-    def min_feature_size(self) -> int:
-        return self._min_feature_size
-
-    def max_feature_size(self) -> int:
-        return self._max_feature_size
 
     def to_pickle(self, f: BufferedWriter) -> None:
         """Hack to get object savable with mypyc
