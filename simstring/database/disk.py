@@ -1,11 +1,15 @@
 
 from typing import List, Set, Dict, Union
 from .base import BaseDatabase
+from collections import defaultdict
+
 from simstring.feature_extractor.character_ngram import CharacterNgramFeatureExtractor
 from simstring.feature_extractor.word_ngram import WordNgramFeatureExtractor
 
 from io import BufferedWriter
 import diskcache as dc
+from multiprocessing import Pool, cpu_count
+
 from functools import lru_cache
 
 import os
@@ -33,15 +37,17 @@ class DiskDatabase(BaseDatabase):
 
     def add_feature_set_size_and_feature_to_string_map(self, size, feature, string)-> None:
         key = self._make_key(size,feature)
-        if key in self.feature_set_size_and_feature_to_string_map:
-            d = self.feature_set_size_and_feature_to_string_map[key]
-            if string in d:
-                return
-        else:
-            d = set()
-        d.add(string)
-        self.feature_set_size_and_feature_to_string_map[key] = d
+        with self.feature_set_size_and_feature_to_string_map.transact():
+            if key in self.feature_set_size_and_feature_to_string_map:
+                d = self.feature_set_size_and_feature_to_string_map[key]
+                if string in d:
+                    return
+            else:
+                d = set()
 
+            d.add(string)
+            self.feature_set_size_and_feature_to_string_map[key] = d
+    
     def get_feature_set_size_and_feature_to_string_map(self, size: int, feature: str
     ) -> Set[str]:
         try:
@@ -49,37 +55,44 @@ class DiskDatabase(BaseDatabase):
         except KeyError:
             return set() 
 
-    def commit(self):
-        pass
+    def parallel_add(self, strings, save_count = 10000):
+        self._feature_set_size_to_string_map = defaultdict(set)
+        self._feature_set_size_and_feature_to_string_map = defaultdict(set)
+        for i, string in enumerate(strings):
+            features = self.feature_extractor.features(string)
+            
+            size = len(features)
+            self._min_feature_size = min(self._min_feature_size, size)
+            self._max_feature_size = max(self._max_feature_size, size)
+        
+            self._feature_set_size_to_string_map[size].add(string)
+
+            for feature in features:
+                self._feature_set_size_and_feature_to_string_map[self._make_key(size,feature)].add(string)
+            
+            if (i % save_count) == 0:
+                with Pool(cpu_count()) as p:  
+                    p.map(self.add,strings)
+
+
 
     def add(self, string: str) -> None:
-        features, size = self._process_string(string)
-
-        for feature in features:
-            self.add_feature_set_size_and_feature_to_string_map(size, feature, string)
-
-    def fast_add(self, string: str) -> None:
-        features, size = self._process_string(string)
-
-        for feature in features:
-            self.add_feature_set_size_and_feature_to_string_map(size, feature, string)
-
-    def _process_string(self, string:str):
         features = self.feature_extractor.features(string)
         size = len(features)
+        with self.feature_set_size_to_string_map.transact():  
+            if size not in self.feature_set_size_to_string_map:
+                size_to_string_map = set()
+            else:
+                size_to_string_map = self.feature_set_size_to_string_map[size]
 
-        if size not in self.feature_set_size_to_string_map:
-            size_to_string_map = set()
-        else:
-            size_to_string_map = self.feature_set_size_to_string_map[size]
-        
-        size_to_string_map.add(string)
-        self.feature_set_size_to_string_map[size] = size_to_string_map
-
+            size_to_string_map.add(string)
+            self.feature_set_size_to_string_map[size] = size_to_string_map
 
         self._min_feature_size = min(self._min_feature_size, size)
         self._max_feature_size = max(self._max_feature_size, size)
-        return features,size
+        
+        for feature in features:
+            self.add_feature_set_size_and_feature_to_string_map(size, feature, string)
 
     def all(self) -> List[str]:
         strings = []
