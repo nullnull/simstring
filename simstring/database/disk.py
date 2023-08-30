@@ -36,7 +36,7 @@ class DiskDatabase(BaseDatabase):
         return f"{size}-{feature}"
 
     def add_feature_set_size_and_feature_to_string_map(self, size, feature, string)-> None:
-        key = self._make_key(size,feature)
+        key = self._make_key(size, feature)
         with self.feature_set_size_and_feature_to_string_map.transact():
             if key in self.feature_set_size_and_feature_to_string_map:
                 d = self.feature_set_size_and_feature_to_string_map[key]
@@ -55,30 +55,13 @@ class DiskDatabase(BaseDatabase):
         except KeyError:
             return set() 
 
-    def parallel_add(self, strings, save_count = 10000):
-        self._feature_set_size_to_string_map = defaultdict(set)
-        self._feature_set_size_and_feature_to_string_map = defaultdict(set)
-        for i, string in enumerate(strings):
-            features = self.feature_extractor.features(string)
-            
-            size = len(features)
-            self._min_feature_size = min(self._min_feature_size, size)
-            self._max_feature_size = max(self._max_feature_size, size)
-        
-            self._feature_set_size_to_string_map[size].add(string)
-
-            for feature in features:
-                self._feature_set_size_and_feature_to_string_map[self._make_key(size,feature)].add(string)
-            
-            if (i % save_count) == 0:
-                with Pool(cpu_count()) as p:  
-                    p.map(self.add,strings)
-
-
-
     def add(self, string: str) -> None:
         features = self.feature_extractor.features(string)
+
         size = len(features)
+        self._min_feature_size = min(self._min_feature_size, size)
+        self._max_feature_size = max(self._max_feature_size, size)
+
         with self.feature_set_size_to_string_map.transact():  
             if size not in self.feature_set_size_to_string_map:
                 size_to_string_map = set()
@@ -87,9 +70,6 @@ class DiskDatabase(BaseDatabase):
 
             size_to_string_map.add(string)
             self.feature_set_size_to_string_map[size] = size_to_string_map
-
-        self._min_feature_size = min(self._min_feature_size, size)
-        self._max_feature_size = max(self._max_feature_size, size)
         
         for feature in features:
             self.add_feature_set_size_and_feature_to_string_map(size, feature, string)
