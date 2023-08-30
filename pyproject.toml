@@ -106,3 +106,4 @@ python = [ "38", "39", "310", "311"]
 [tool.hatch.envs.benchmark.scripts]
 run = "python dev/benchmark.py"
 instrument = "pip install . && python dev/company_names.py"
+adds = "pip install . && python dev/benchmarking_adds.py"
