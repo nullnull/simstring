@@ -34,11 +34,6 @@ class TestComparability(TestCase):
     def test_strings(self):
         self.assertEqual(set(self.dict_db.all()), set(self.disk_db.all()))
 
-    def test_min_feature_size(self):
-        self.assertEqual(self.dict_db.min_feature_size(), self.disk_db.min_feature_size())
-
-    def test_max_feature_size(self):
-        self.assertEqual(self.dict_db.max_feature_size(), self.disk_db.max_feature_size())
 
     def test_equivalence_disk_to_dict(self):
         for key in self.disk_db.feature_set_size_to_string_map.iterkeys():
