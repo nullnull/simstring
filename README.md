@@ -69,3 +69,10 @@ print(results)
 - Dice
 - Jaccard
 - Overlap
+- Left Overlap
+
+
+## Supported database backends
+- dictionary
+- diskcache (sqlite)
+- redis (in development #37)

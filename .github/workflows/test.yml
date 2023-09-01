@@ -38,7 +38,7 @@ jobs:
       run: |
         hatch run test:cov
   
-    - name: Install module adn test again
+    - name: Install module and test again
       run: |
         hatch run test:build
         pip install --find-links=dist simstring-fast
