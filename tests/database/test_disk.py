@@ -4,6 +4,9 @@ from unittest import TestCase
 from simstring.database.disk import DiskDatabase
 from simstring.feature_extractor.character_ngram import CharacterNgramFeatureExtractor
 import random
+import pickle
+import os
+import shutil
 
 class TestDisk(TestCase):
     strings = ["a", "ab", "abc", "abcd", "abcde"]
