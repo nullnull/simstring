@@ -9,7 +9,7 @@ class TestDisk(TestCase):
     strings = ["a", "ab", "abc", "abcd", "abcde"]
 
     def setUp(self):
-        self.db = DiskDatabase(CharacterNgramFeatureExtractor(2), path=f"tmp_db_for_tests-{random.randint(1000,10000))
+        self.db = DiskDatabase(CharacterNgramFeatureExtractor(2), path=f"tmp_db_for_tests-{random.randint(1000,10000)}")
         for string in self.strings:
             self.db.add(string)
 
