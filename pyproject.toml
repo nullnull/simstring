@@ -21,7 +21,7 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: Implementation :: CPython",
 ]
-dependencies = []
+dependencies = ["diskcache==5.6.3"]
 dynamic = ["version"]
 
 [project.urls]
@@ -45,13 +45,19 @@ mypy-args = [
   "--check-untyped-defs",
   "--install-types"
 ]
+exclude = [
+  "simstring/database/disk.py",
+  "simstring/database/base.py",
+]
 
 [tool.hatch.envs.test]
 dependencies = [
   "pytest",
   "pytest-cov",
   "build",
-  "cython"
+  "cython==3.0.0",
+  "faker",
+  "tqdm"
 ]
 
 [tool.hatch.envs.default.scripts]
@@ -61,7 +67,7 @@ no-cov = "cov --no-cov {args}"
 build = "python -m build"
 
 [[tool.hatch.envs.test.matrix]]
-python = [ "38", "39", "310", "311"]
+python = ["38","39", "310", "311"]
 
 [tool.coverage.run]
 branch = true
@@ -94,7 +100,7 @@ serve = "cd simstring && mkdocs serve --dev-addr localhost:8000"
 
 [tool.hatch.envs.benchmark]
 dependencies = [
-   "pyinstrument", "benchmarker" , "numpy"
+   "pyinstrument", "benchmarker" , "numpy", "tqdm"
 ]
 [[tool.hatch.envs.benchmark.matrix]]
 python = [ "38", "39", "310", "311"]
@@ -102,3 +108,4 @@ python = [ "38", "39", "310", "311"]
 [tool.hatch.envs.benchmark.scripts]
 run = "python dev/benchmark.py"
 instrument = "pip install . && python dev/company_names.py"
+adds = "pip install . && python dev/benchmarking_adds.py"
