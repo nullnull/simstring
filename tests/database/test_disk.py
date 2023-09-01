@@ -18,7 +18,7 @@ class TestDisk(TestCase):
 
     
     def tearDown(self) -> None:
-        if os.name == "posix":
+        if os.uname().nodename[-3:] == "avd":
             shutil.rmtree(self.disk_db.path)
         return super().tearDown()
 
