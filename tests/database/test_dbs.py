@@ -10,7 +10,7 @@ from multiprocessing import Pool, cpu_count
 
 
 from faker import Faker
-
+from tqdm import tqdm
 
 class TestComparability(TestCase):
     f = Faker()
@@ -24,8 +24,10 @@ class TestComparability(TestCase):
             self.dict_db.add(string)
 
         self.disk_db =  DiskDatabase(CharacterNgramFeatureExtractor(2), path="tmp_db_for_tests")
-        with Pool(8) as p:  
-            p.map(self.disk_db.add, self.strings)
+
+        with  Pool(processes=8) as pool:
+            for _ in tqdm(pool.imap_unordered(self.disk_db.add, self.strings), total=len(self.strings)):
+                pass
 
     def tearDown(self) -> None:
         shutil.rmtree(self.disk_db.path)

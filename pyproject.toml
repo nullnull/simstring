@@ -55,7 +55,9 @@ dependencies = [
   "pytest",
   "pytest-cov",
   "build",
-  "cython==3.0.0"
+  "cython==3.0.0",
+  "faker",
+  "tqdm"
 ]
 
 [tool.hatch.envs.default.scripts]

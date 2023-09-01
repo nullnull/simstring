@@ -21,13 +21,13 @@ def output_similar_strings_of_each_line(path, measures, db_cls):
         for line in lines:
             strings.append(line.rstrip("\r\n").strip().lower())
     
-    db = make_db(db_cls, strings[:10_000])
+    db = make_db(db_cls, strings)
     # profiler.print()
 
     for measure in measures:
         searcher = Searcher(db, measure)
 
-        for string in strings:
+        for string in tqdm(strings[:10_000]):
             result = searcher.search(string, 0.8)
 
         print(result)
@@ -42,17 +42,21 @@ def make_db(db_cls, strings):
 
     # for string in tqdm(strings):
     #     db.add(string)
-    with Pool(8) as p:  
-       p.map(db.add,strings)
+    # with Pool(8) as p:  
+    #    p.map(db.add,strings)
+
+    with  Pool(processes=8) as pool:
+        for _ in tqdm(pool.imap_unordered(db.add, strings), total=len(strings)):
+            pass
     # profiler.stop()
     print(time()-start)
     # profiler.print()
     return db
 
 if __name__ =="__main__":
-    file = "dev/data/company_names.txt"
+    # file = "dev/data/company_names.txt"
     # file = "dev/data/unabridged_dictionary.txt"
-    # file = "dev/data/addresses.csv"
+    file = "dev/data/addresses.csv"
     # measures =  [CosineMeasure(), OverlapMeasure(), LeftOverlapMeasure()]
     measures =  [CosineMeasure()]
     for db_cls in [DiskDatabase]:
