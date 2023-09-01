@@ -41,5 +41,5 @@ jobs:
     - name: Install module adn test again
       run: |
         hatch run test:build
-        pip install --no-index --find-links=dist simstring-fast
+        pip install --find-links=dist simstring-fast
         hatch run test:cov
