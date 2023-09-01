@@ -3,16 +3,13 @@
 from unittest import TestCase
 from simstring.database.disk import DiskDatabase
 from simstring.feature_extractor.character_ngram import CharacterNgramFeatureExtractor
-import pickle
-import os
-import shutil
-
+import random
 
 class TestDisk(TestCase):
     strings = ["a", "ab", "abc", "abcd", "abcde"]
 
     def setUp(self):
-        self.db = DiskDatabase(CharacterNgramFeatureExtractor(2), path="tmp_db_for_tests")
+        self.db = DiskDatabase(CharacterNgramFeatureExtractor(2), path=f"tmp_db_for_tests-{random.randint(1000,10000))
         for string in self.strings:
             self.db.add(string)
 
