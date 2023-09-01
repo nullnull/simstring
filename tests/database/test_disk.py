@@ -18,7 +18,8 @@ class TestDisk(TestCase):
 
     
     def tearDown(self) -> None:
-        shutil.rmtree(self.db.path)
+        if os.name == "posix":
+            shutil.rmtree(self.disk_db.path)
         return super().tearDown()
 
     def test_strings(self):
