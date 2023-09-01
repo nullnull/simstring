@@ -21,7 +21,7 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: Implementation :: CPython",
 ]
-dependencies = ["diskcache==5.6.1"]
+dependencies = ["diskcache==5.6.3"]
 dynamic = ["version"]
 
 [project.urls]
