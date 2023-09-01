@@ -31,7 +31,8 @@ class TestComparability(TestCase):
                 pass
 
     def tearDown(self) -> None:
-        shutil.rmtree(self.disk_db.path)
+        if os.name == "posix":
+            shutil.rmtree(self.disk_db.path)
         return super().tearDown()
     
     def test_strings(self):
