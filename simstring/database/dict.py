@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import List, Set, Dict, Union
+from typing import Union
 from .base import BaseDatabase
 from simstring.feature_extractor.character_ngram import CharacterNgramFeatureExtractor
 from simstring.feature_extractor.word_ngram import WordNgramFeatureExtractor
@@ -20,8 +20,8 @@ class DictDatabase(BaseDatabase):
         ],
     ):
         self.feature_extractor = feature_extractor
-        self.strings: List[str] = []
-        self.feature_set_size_to_string_map: Dict[int, Set[str]] = dict()
+        self.strings: list[str] = []
+        self.feature_set_size_to_string_map: dict[int, set[str]] = dict()
         self.feature_set_size_and_feature_to_string_map: dict = defaultdict(
             defaultdict_set
         )
@@ -42,12 +42,12 @@ class DictDatabase(BaseDatabase):
         for feature in features:
             self.feature_set_size_and_feature_to_string_map[size][feature].add(string)
 
-    def all(self) -> List[str]:
+    def all(self) -> list[str]:
         return self.strings
 
     def lookup_strings_by_feature_set_size_and_feature(
         self, size: int, feature: str
-    ) -> Set[str]:
+    ) -> set[str]:
         return self.feature_set_size_and_feature_to_string_map[size][feature]
 
     def to_pickle(self, f: BufferedWriter) -> None:

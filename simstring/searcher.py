@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 from collections import defaultdict, OrderedDict
-from typing import List, Dict, Set, OrderedDict as OrderedDictType
+from typing import OrderedDict as OrderedDictType
 
 
 class Searcher:
@@ -18,7 +18,7 @@ class Searcher:
         self.feature_extractor = db.feature_extractor
         self.lookup_strings_result: dict = defaultdict(dict)
 
-    def search(self, query_string: str, alpha: float) -> List[str]:
+    def search(self, query_string: str, alpha: float) -> list[str]:
         features = self.feature_extractor.features(query_string)
         lf = len(features)
         min_feature_size = self.measure.min_feature_size(lf, alpha)
@@ -72,8 +72,8 @@ class Searcher:
         )
 
     def __overlap_join(
-        self, features: List[str], tau: int, candidate_feature_size: int
-    ) -> List[str]:
+        self, features: list[str], tau: int, candidate_feature_size: int
+    ) -> list[str]:
         query_feature_size = len(features)
 
         features_mapped_to_lookup_strings_sets = {
@@ -85,8 +85,8 @@ class Searcher:
 
         features.sort(key=lambda x: len(features_mapped_to_lookup_strings_sets[x]))
 
-        # candidate_string_to_matched_count : Dict[str,int] = defaultdict(int) # Only in 3.10 and later
-        candidate_string_to_matched_count: Dict[str, int] = dict()
+        # candidate_string_to_matched_count : dict[str,int] = defaultdict(int) # Only in 3.10 and later
+        candidate_string_to_matched_count: dict[str, int] = dict()
         results = []
         for feature in features[0 : query_feature_size - tau + 1]:
             for s in features_mapped_to_lookup_strings_sets[feature]:
@@ -117,7 +117,7 @@ class Searcher:
 
     def __lookup_strings_by_feature_set_size_and_feature(
         self, feature_size: int, feature: str
-    ) -> Set[str]:
+    ) -> set[str]:
         if feature not in self.lookup_strings_result[feature_size]:
             self.lookup_strings_result[feature_size][
                 feature

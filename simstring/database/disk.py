@@ -1,5 +1,5 @@
 
-from typing import List, Set, Dict, Union
+from typing import Union
 from .base import BaseDatabase
 from collections import defaultdict
 
@@ -47,7 +47,7 @@ class DiskDatabase(BaseDatabase):
             self.feature_set_size_and_feature_to_string_map[key] = d
     
     def get_feature_set_size_and_feature_to_string_map(self, size: int, feature: str
-    ) -> Set[str]:
+    ) -> set[str]:
         try:
             return self.feature_set_size_and_feature_to_string_map[self._make_key(size,feature)]
         except KeyError:
@@ -69,7 +69,7 @@ class DiskDatabase(BaseDatabase):
         for feature in features:
             self.add_feature_set_size_and_feature_to_string_map(size, feature, string)
 
-    def all(self) -> List[str]:
+    def all(self) -> list[str]:
         strings = []
         for k in self.feature_set_size_to_string_map.iterkeys():
             strings.extend(self.feature_set_size_to_string_map[k])
@@ -77,5 +77,5 @@ class DiskDatabase(BaseDatabase):
 
     def lookup_strings_by_feature_set_size_and_feature(
         self, size: int, feature: str
-    ) -> Set[str]:
+    ) -> set[str]:
         return self.get_feature_set_size_and_feature_to_string_map(size,feature)

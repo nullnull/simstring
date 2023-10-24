@@ -40,7 +40,7 @@ include = [
 ]
 
 [tool.hatch.build.targets.wheel.hooks.mypyc]
-dependencies = ["hatch-mypyc"]
+dependencies = ["hatch-mypyc==0.16.0"]
 mypy-args = [
   "--check-untyped-defs",
   "--install-types"
@@ -52,22 +52,24 @@ exclude = [
 
 [tool.hatch.envs.test]
 dependencies = [
-  "pytest",
-  "pytest-cov",
+  "pytest==7.4.2",
+  "pytest-cov==4.1.0",
   "build",
   "cython==3.0.0",
   "faker",
-  "tqdm"
+  "tqdm",
+  "pdbpp"
 ]
 
 [tool.hatch.envs.default.scripts]
 version = "python --version"
-cov = "pytest --cov-report=term --cov-config=pyproject.toml"
+cov = "pytest --cov-report=term --cov-config=pyproject.toml {args}"
 no-cov = "cov --no-cov {args}"
 build = "python -m build"
 
 [[tool.hatch.envs.test.matrix]]
-python = ["38","39", "310", "311"]
+# python = ["38","39", "310", "311"]
+python = ["310", "311"]
 
 [tool.coverage.run]
 branch = true
@@ -103,7 +105,7 @@ dependencies = [
    "pyinstrument", "benchmarker" , "numpy", "tqdm"
 ]
 [[tool.hatch.envs.benchmark.matrix]]
-python = [ "38", "39", "310", "311"]
+python = [ "310", "311"]
 
 [tool.hatch.envs.benchmark.scripts]
 run = "python dev/benchmark.py"
